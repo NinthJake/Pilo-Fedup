@@ -123,9 +123,14 @@ hl.config({
 
         blur = {
             enabled  = true,
-            size     = 3,
+            size     = 8,
             passes   = 2,
             vibrancy = 0.1696,
+
+            -- Hyprland 0.56 defaults ignore_opacity to true, which on this
+            -- setup kills window blur entirely (translucent windows show the
+            -- wallpaper razor-sharp instead of frosted). Force it off.
+            ignore_opacity = false,
         },
     },
 
