@@ -33,8 +33,9 @@ hl.monitor({
 ---- MY PROGRAMS ----
 ---------------------
 
-local terminal = "foot"
-local menu     = "wofi --show drun"
+local terminal    = "foot"
+local menu        = "wofi --show drun"
+local fileManager = "dolphin"
 
 -------------------
 ---- AUTOSTART ----
@@ -184,6 +185,7 @@ hl.gesture({
 local mainMod = "SUPER" -- Windows key
 
 hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 
 -- Open the app launcher by tapping SUPER alone (fires on release, so it
 -- won't trigger when SUPER is used as a modifier for other binds below)
@@ -257,6 +259,15 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 --------------------------------
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
+
+hl.window_rule({
+    -- Browser picture-in-picture windows always float
+    -- (Firefox: "Picture-in-Picture", Chromium/Brave: "Picture in picture")
+    name  = "float-pip",
+    match = { title = "^[Pp]icture[- ]in[- ][Pp]icture$" },
+
+    float = true,
+})
 
 hl.window_rule({
     -- Ignore maximize requests from all apps

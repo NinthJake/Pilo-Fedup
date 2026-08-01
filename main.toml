@@ -29,6 +29,8 @@ auto_prune = true
 # Default: false
 enable_rpmfusion = true
 
+# auto_push = true commits your files to repo on fedup sync
+auto_push = true
 # =============================================================================
 # HOOKS
 # =============================================================================
