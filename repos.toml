@@ -1,0 +1,24 @@
+# =============================================================================
+# Third-party repositories
+# =============================================================================
+# fedup can enable additional dnf repositories before installing packages.
+# This is useful for software not in the official Fedora repos.
+#
+# Note: RPM Fusion is handled by enable_rpmfusion in main.toml — you don't
+# need to add it here if you use that setting.
+#
+# Repo entry fields:
+#   name    — A label for the repo (used in output messages)
+#   url     — Either a .repo file URL or a .rpm package URL
+#   gpg_key — Optional GPG key URL to import before adding the repo
+#
+# URL types:
+#   .repo files → uses: dnf config-manager addrepo --from-repofile <url>
+#   .rpm files  → uses: dnf install -y <url>
+# =============================================================================
+
+[repos]
+entries = [
+     # Browser
+     # { name = "brave-browser", url = "https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo" },
+ ]

@@ -1,0 +1,35 @@
+# hyprpaper — wallpaper daemon (hyprlang block syntax, hyprpaper >= 0.8)
+# Docs: https://wiki.hyprland.org/Hyprland-Ecosystem/hyprpaper/
+
+# Randomly rotate through the pika wallpaper folder every 5 minutes.
+# hyprpaper >= 0.8 supports directories natively: path can point at a folder,
+# order = random shuffles them, timeout (seconds) controls rotation speed.
+# One wallpaper {} block per monitor = each output picks/rotates independently,
+# so DP-1/DP-2/HDMI-A-1 won't all show the same image at the same time.
+# NOTE: hyprpaper does not expand ~ — absolute paths required.
+wallpaper {
+    monitor = HDMI-A-1
+    path = /home/pilo/Pictures/Wallpapers/pika/
+    fit_mode = cover
+    timeout = 302
+    order = random
+}
+
+wallpaper {
+    monitor = DP-1
+    path = /home/pilo/Pictures/Wallpapers/pika/
+    fit_mode = cover
+    timeout = 300
+    order = random
+}
+
+wallpaper {
+    monitor = DP-2
+    path = /home/pilo/Pictures/Wallpapers/pika/
+    fit_mode = cover
+    timeout = 304
+    order = random
+}
+
+splash = false
+ipc = on

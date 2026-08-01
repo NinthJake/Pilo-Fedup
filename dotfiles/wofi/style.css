@@ -1,0 +1,61 @@
+/* wofi launcher style — vague.nvim palette (managed by fedup) */
+
+window {
+  margin: 0;
+  background-color: #141415;
+  border: 2px solid #252530;
+  border-radius: 10px;
+  font-family: "FiraCode Nerd Font", monospace;
+  font-size: 14px;
+}
+
+#input {
+  margin: 12px 12px 6px 12px;
+  padding: 8px 12px;
+  background-color: #1c1c24;
+  color: #cdcdcd;
+  border: 2px solid #252530;
+  border-radius: 6px;
+  outline: none;
+}
+
+#input:focus {
+  border-color: #b4d4cf;
+  box-shadow: none;
+}
+
+#inner-box {
+  margin: 6px 12px 12px 12px;
+}
+
+#outer-box {
+  margin: 0;
+}
+
+#scroll {
+  margin: 0;
+}
+
+#entry {
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #cdcdcd;
+}
+
+#entry:selected {
+  background-color: #252530;
+  outline: none;
+  box-shadow: none;
+}
+
+#entry:selected #text {
+  color: #b4d4cf;
+}
+
+#text {
+  color: inherit;
+}
+
+#img {
+  margin-right: 8px;
+}

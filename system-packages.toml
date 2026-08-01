@@ -1,0 +1,28 @@
+[dnf]
+install = [
+    "dnf5-plugins",
+    "kernel",
+    "kernel-modules",
+    "libavcodec-freeworld",
+    "libheif-freeworld",
+    "mesa-libgallium-freeworld",
+    "mozilla-openh264",
+    "nobara-updater",
+    "openh264",
+    "pipewire-codec-aptx",
+    "rocblas",
+    "rocm-clinfo",
+    "rocm-cmake",
+    "rocm-comgr",
+    "rocm-core",
+    "rocm-meta",
+    "rocm-opencl",
+    "rocm-rpm-macros",
+    "rocm-runtime",
+    "rocm-smi",
+    "rocminfo",
+    "rocprim-devel",
+    "roctracer",
+    "x264-libs",
+    "x265-libs"
+]

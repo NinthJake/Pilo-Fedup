@@ -1,0 +1,97 @@
+# =============================================================================
+# Hyprland — Wayland compositor + full ecosystem, managed by fedup
+# =============================================================================
+# This file wires up everything for a Hyprland session:
+#   1. [repos]    — enables the Hyprland COPR (not in Fedora's main repos)
+#   2. [dnf]      — compositor + ecosystem packages
+#   3. [dotfiles] — symlinks the config (Lua, since Hyprland 0.55) into place
+#
+# The actual Hyprland configuration lives in:
+#   ~/.config/fedup/dotfiles/hypr/hyprland.lua
+# which is inside this git repo and backed up by auto_push.
+#
+# After 'fedup sync', log out and pick "Hyprland" in your display manager.
+# =============================================================================
+
+[repos]
+entries = [
+    # Community COPR endorsed by vaxry (Hyprland's author), forked from the
+    # stale solopasha/hyprland. Carries hyprland 0.56 + the hypr* ecosystem.
+    { name = "hyprland", url = "https://copr.fedorainfracloud.org/coprs/lionheartp/Hyprland/repo/fedora-44/lionheartp-Hyprland-fedora-44.repo" },
+]
+
+[dnf]
+install = [
+    # Compositor + official ecosystem (from the COPR above)
+    "hyprland",
+    "hyprland-guiutils",
+    "hyprpaper",
+    "hyprlock",
+    "hypridle",
+    "hyprpolkitagent",
+    "xdg-desktop-portal-hyprland",
+
+    # Desktop components (Fedora repos)
+    "waybar",                  # status bar
+    "wofi",                    # app launcher
+    "mako",                    # notifications
+    "qt6-qtwayland",           # Qt apps on Wayland
+
+    # Tools used by the keybinds and waybar on-click actions
+    "foot",                    # terminal (SUPER+Return, TUI popups)
+    "wl-clipboard",            # wl-copy/wl-paste (screenshot binds)
+    "brightnessctl",           # screen brightness keys
+    "playerctl",               # media keys
+    "grim",                    # screenshots
+    "slurp",                   # area selection for grim
+    "btop",                    # system monitor TUI (waybar temp on-click)
+
+    # Build dependencies for compiling the cargo TUIs below
+    "dbus-devel",              # bluetui: libdbus-sys needs dbus-1 headers
+    "pipewire-devel",          # wiremix: pipewire bindings need libpipewire headers
+    "clang-devel",             # wiremix: bindgen needs libclang
+
+    # rustup — bootstraps cargo on fresh systems (see [cargo.hooks] below)
+    "rustup",
+]
+
+# Rust TUIs for the waybar on-click actions (compiled by cargo)
+[cargo]
+install = [
+    "bluetui",                 # bluetooth TUI
+    "wiremix",                 # pipewire volume mixer TUI
+    "impala-nm",               # NetworkManager wifi/network TUI
+]
+
+# Bootstrap cargo BEFORE any cargo package is installed:
+# the dnf phase installs the rustup rpm, then this pre-hook installs the
+# toolchain, then fedup's cargo phase finds the shim at ~/.cargo/bin/cargo
+# (even if PATH doesn't have it yet). Runs once; skipped if a toolchain
+# already exists (e.g. rustup.rs was used).
+[cargo.hooks]
+pre = [
+    { cmd = "rustup-init -y --profile default", once = true, unless = "test -x ~/.cargo/bin/cargo" },
+]
+
+# FiraCode Nerd Font — required for the waybar icons and the terminal font.
+# Downloaded once from the official nerd-fonts releases (same as main.toml).
+[dnf.hooks]
+post = [
+    { cmd = "curl -L https://github.com/ryanoasis/nerd-fonts/releases/latest/download/FiraCode.tar.xz -o /tmp/FiraCode.tar.xz && mkdir -p ~/.local/share/fonts/FiraCode && tar -xf /tmp/FiraCode.tar.xz -C ~/.local/share/fonts/FiraCode && rm /tmp/FiraCode.tar.xz && fc-cache -f", once = true, unless = "test -f ~/.local/share/fonts/FiraCode/FiraCodeNerdFont-Regular.ttf" },
+]
+
+[dotfiles]
+symlinks = [
+    { target = "~/.config/fedup/dotfiles/hypr", link = "~/.config/hypr" },
+    { target = "~/.config/fedup/dotfiles/waybar", link = "~/.config/waybar" },
+    { target = "~/.config/fedup/dotfiles/wofi", link = "~/.config/wofi" },
+    { target = "~/.config/fedup/dotfiles/mako", link = "~/.config/mako" },
+    { target = "~/.config/fedup/dotfiles/eza", link = "~/.config/eza" },
+    { target = "~/.config/fedup/dotfiles/foot", link = "~/.config/foot" },
+    { target = "~/.config/fedup/dotfiles/zsh/.zshrc", link = "~/.zshrc" },
+    { target = "~/.config/fedup/dotfiles/zsh/.p10k.zsh", link = "~/.p10k.zsh" },
+]
+
+# NOTE: power profiles are already handled by tuned-ppd (Fedora's default,
+# enabled system-wide) — the waybar module displays the active profile and
+# dotfiles/hypr/power-profile.sh cycles it on click. No extra service needed.

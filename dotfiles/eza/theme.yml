@@ -1,0 +1,69 @@
+# eza theme — vague.nvim palette (managed by fedup)
+# https://github.com/vague2k/vague.nvim
+colourful: true
+
+filekinds:
+  normal: { foreground: "#cdcdcd" }       # fg
+  directory: { foreground: "#b4d4cf" }    # builtin teal
+  symlink: { foreground: "#7e98e8" }      # hint periwinkle
+  pipe: { foreground: "#606079" }         # comment
+  block_device: { foreground: "#e0a363" } # number amber
+  char_device: { foreground: "#e0a363" }
+  socket: { foreground: "#bb9dbd" }       # parameter mauve
+  special: { foreground: "#aeaed1" }      # constant violet
+  executable: { foreground: "#7fa563" }   # plus green
+  mount_path: { foreground: "#b4d4cf" }
+
+perms:
+  user_read: { foreground: "#f3be7c" }
+  user_write: { foreground: "#d8647e" }
+  user_execute_file: { foreground: "#7fa563" }
+  user_execute_other: { foreground: "#7fa563" }
+  group_read: { foreground: "#e8b589" }
+  group_write: { foreground: "#c48282" }
+  group_execute: { foreground: "#7fa563" }
+  other_read: { foreground: "#606079" }
+  other_write: { foreground: "#c48282" }
+  other_execute: { foreground: "#7fa563" }
+  special_user_file: { foreground: "#f3be7c" }
+  special_other: { foreground: "#606079" }
+  attribute: { foreground: "#606079" }
+
+size:
+  major: { foreground: "#c3c3d5" }        # property lavender
+  minor: { foreground: "#606079" }
+
+users:
+  user_you: { foreground: "#6e94b2" }     # keyword steel
+  user_root: { foreground: "#d8647e" }    # error
+  user_other: { foreground: "#606079" }
+  group_yours: { foreground: "#6e94b2" }
+  group_other: { foreground: "#606079" }
+
+links:
+  normal: { foreground: "#c3c3d5" }
+  multi_link_file: { foreground: "#f3be7c" }
+
+git:
+  new: { foreground: "#7fa563" }
+  modified: { foreground: "#f3be7c" }
+  deleted: { foreground: "#d8647e" }
+  renamed: { foreground: "#7e98e8" }
+  typechange: { foreground: "#bb9dbd" }
+  ignored: { foreground: "#606079" }
+  conflicted: { foreground: "#d8647e", is_bold: true }
+
+git_repo:
+  branch_main: { foreground: "#aeaed1" }
+  branch_other: { foreground: "#aeaed1" }
+  git_clean: { foreground: "#7fa563" }
+  git_dirty: { foreground: "#f3be7c" }
+
+punctuation: { foreground: "#606079" }
+date: { foreground: "#606079" }
+inode: { foreground: "#606079" }
+blocks: { foreground: "#606079" }
+header: { foreground: "#606079" }
+symlink_path: { foreground: "#7e98e8" }
+control_char: { foreground: "#f3be7c" }
+broken_symlink_overlay: { foreground: "#d8647e", is_bold: true }

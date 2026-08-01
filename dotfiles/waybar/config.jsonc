@@ -1,0 +1,127 @@
+// waybar config — managed by fedup (~/.config/fedup/dotfiles/waybar)
+// Laptop-focused: battery, backlight, bluetooth, wifi, power profile,
+// idle inhibitor. Themed with vague.nvim colors; styling lives in style.css
+//
+// NOTE: icons are written as JSON unicode escapes — literal Nerd Font
+// glyphs get silently stripped when this file is written by tools.
+{
+  "layer": "top",
+  "position": "top",
+  "height": 32,
+  "spacing": 6,
+
+  "modules-left": ["hyprland/workspaces", "hyprland/window"],
+  "modules-center": ["clock"],
+  "modules-right": [
+    "idle_inhibitor",
+    "mpris",
+    "backlight",
+    "bluetooth",
+    "network",
+    "pulseaudio",
+    "battery",
+    "power-profiles-daemon",
+    "temperature",
+    "tray"
+  ],
+
+  "hyprland/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "sort-by-number": true
+  },
+
+  "hyprland/window": {
+    "max-length": 50,
+    "separate-outputs": true
+  },
+
+  "clock": {
+    "format": "\uf017 {:%H:%M}",
+    "format-alt": "\uf017 {:%A %d %B}",
+    "tooltip-format": "<tt><small>{calendar}</small></tt>",
+    "calendar": { "mode": "month", "on-scroll": 1 }
+  },
+
+  "idle_inhibitor": {
+    "format": "\uf0f4",
+    "tooltip-format-activated": "Idle inhibitor ON — screen stays awake",
+    "tooltip-format-deactivated": "Idle inhibitor off — screen will sleep"
+  },
+
+  "backlight": {
+    "format": "\uf185 {percent}%",
+    "on-scroll-up": "brightnessctl set +5%",
+    "on-scroll-down": "brightnessctl set 5%-",
+    "tooltip": false
+  },
+
+  "bluetooth": {
+    "format": "\uf293",
+    "format-off": "\uf293 off",
+    "format-disabled": "\uf293 off",
+    "format-connected": "\uf293 {num_connections}",
+    "on-click": "foot ~/.cargo/bin/bluetui",
+    "on-click-right": "bluetoothctl power toggle",
+    "tooltip-format": "{controller_alias}",
+    "tooltip-format-enumerate-connected": "{device_alias}"
+  },
+
+  "network": {
+    "format-wifi": "\uf1eb {essid} {signalStrength}%",
+    "format-ethernet": "wired",
+    "format-disconnected": "\uf127 offline",
+    "tooltip-format": "{ifname}: {ipaddr}",
+    "on-click": "foot ~/.cargo/bin/impala-nm"
+  },
+
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": "\uf026 muted",
+    "format-icons": { "default": ["\uf026", "\uf027", "\uf028"] },
+    "on-click": "foot ~/.cargo/bin/wiremix",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+    "on-scroll-up": "wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 1%+",
+    "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 1%-",
+    "tooltip": false
+  },
+
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-charging": "\uf0e7 {capacity}%",
+    "format-full": "\uf1e6 {capacity}%",
+    "format-icons": ["\uf244", "\uf243", "\uf242", "\uf241", "\uf240"],
+    "format-time": "{H}h {M}min",
+    "states": { "warning": 30, "critical": 15 },
+    "tooltip-format": "{timeTo} — {power}W"
+  },
+
+  "power-profiles-daemon": {
+    "format": "{icon} {profile}",
+    "format-icons": {
+      "performance": "\uf0e7",
+      "balanced": "\uf24e",
+      "power-saver": "\uf06c"
+    },
+    "on-click": "~/.config/hypr/power-profile.sh"
+  },
+
+  "temperature": {
+    "format": "\uf2c9 {temperatureC}°",
+    "critical-threshold": 85,
+    "on-click": "foot /usr/bin/btop",
+    "tooltip": false
+  },
+
+  "mpris": {
+    "format": "\uf04b {title} — {artist}",
+    "format-paused": "\uf04c {title}",
+    "max-length": 40,
+    "tooltip": false
+  },
+
+  "tray": {
+    "spacing": 10,
+    "show-passive-items": false
+  }
+}

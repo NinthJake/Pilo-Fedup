@@ -1,0 +1,38 @@
+[dnf]
+install = [
+    "bash-completion",
+    "brave-origin-nightly",
+    "cargo",
+    "codium",
+    "dnf5-plugins",
+    "eza",
+    "fzf",
+    "gnome-disk-utility",
+    "nano",
+    "steam",
+    "trash-cli",
+    "wl-clipboard",
+    "wl-paste",
+    "wtype",
+    "xclip",
+    "xdotool",
+    "ydotool",
+    "zoxide"
+]
+
+[flatpak]
+install = [
+    "com.github.tchx84.Flatseal",
+    "io.github.kolunmi.Bazaar"
+]
+
+[pip]
+install = [
+
+]
+
+[npm]
+install = [
+    "opencode-ai"
+]
+

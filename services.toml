@@ -1,0 +1,21 @@
+# =============================================================================
+# Systemd services
+# =============================================================================
+# fedup can enable, disable, or mask systemd services during sync.
+# It checks the current state first and only acts if a change is needed.
+#
+# enable  — Enable and start the service (systemctl enable --now)
+# disable — Disable and stop the service (systemctl disable --now)
+# mask   — Fully mask the service (prevents any activation)
+# =============================================================================
+
+[services]
+enable = [
+{ "hyprpolkitagent.service" }
+]
+disable = [
+
+]
+mask = [
+
+]

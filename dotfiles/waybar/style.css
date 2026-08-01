@@ -1,0 +1,167 @@
+/* waybar style — vague.nvim palette (managed by fedup)
+   https://github.com/vague2k/vague.nvim */
+
+/* palette:
+   bg #141415  inactiveBg #1c1c24  fg #cdcdcd
+   line #252530  comment #606079
+   builtin #b4d4cf (teal)  keyword #6e94b2 (steel)  hint #7e98e8 (periwinkle)
+   error #d8647e  warning #f3be7c  plus #7fa563
+*/
+
+* {
+  font-family: "FiraCode Nerd Font", monospace;
+  font-size: 13px;
+  min-height: 0;
+  border: none;
+  border-radius: 0;
+}
+
+window#waybar {
+  background-color: rgba(20, 20, 21, 0.92);
+  color: #cdcdcd;
+  border-bottom: 2px solid #252530;
+}
+
+/* ── workspaces ─────────────────────────────────────────── */
+#workspaces {
+  margin-left: 8px;
+}
+
+#workspaces button {
+  padding: 0 8px;
+  color: #606079;
+  border-bottom: 2px solid transparent;
+}
+
+#workspaces button:hover {
+  color: #cdcdcd;
+  background-color: transparent;
+  box-shadow: none;
+  text-shadow: none;
+}
+
+#workspaces button.active {
+  color: #b4d4cf;
+  border-bottom: 2px solid #b4d4cf;
+}
+
+#workspaces button.urgent {
+  color: #d8647e;
+}
+
+/* ── window title ───────────────────────────────────────── */
+#window {
+  color: #606079;
+  font-style: italic;
+  padding: 0 12px;
+}
+
+/* ── clock ──────────────────────────────────────────────── */
+#clock {
+  color: #b4d4cf;
+  font-weight: bold;
+}
+
+/* ── right-side modules ─────────────────────────────────── */
+#idle_inhibitor,
+#mpris,
+#backlight,
+#bluetooth,
+#network,
+#pulseaudio,
+#battery,
+#power-profiles-daemon,
+#temperature,
+#tray {
+  padding: 0 10px;
+  color: #cdcdcd;
+}
+
+#power-profiles-daemon.performance {
+  color: #d8647e;
+}
+
+#power-profiles-daemon.balanced {
+  color: #b4d4cf;
+}
+
+#power-profiles-daemon.power-saver {
+  color: #7fa563;
+}
+
+#idle_inhibitor {
+  color: #606079;
+}
+
+#idle_inhibitor.activated {
+  color: #f3be7c;
+}
+
+#mpris {
+  color: #aeaed1;
+}
+
+#mpris.paused {
+  color: #606079;
+}
+
+#backlight {
+  color: #e0a363;
+}
+
+#bluetooth {
+  color: #7e98e8;
+}
+
+#bluetooth.off,
+#bluetooth.disabled {
+  color: #606079;
+}
+
+#bluetooth.connected {
+  color: #b4d4cf;
+}
+
+#network {
+  color: #7e98e8;
+}
+
+#network.disconnected {
+  color: #d8647e;
+}
+
+#pulseaudio.muted {
+  color: #606079;
+}
+
+#battery.warning {
+  color: #f3be7c;
+}
+
+#battery.critical {
+  color: #d8647e;
+}
+
+#battery.charging,
+#battery.full {
+  color: #7fa563;
+}
+
+#temperature {
+  color: #606079;
+}
+
+#temperature.critical {
+  color: #d8647e;
+}
+
+#tray {
+  margin-right: 8px;
+}
+
+/* tooltip */
+tooltip {
+  background-color: #1c1c24;
+  color: #cdcdcd;
+  border: 1px solid #252530;
+}

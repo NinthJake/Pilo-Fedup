@@ -1,0 +1,73 @@
+# =============================================================================
+# fedup — Declarative Fedora system manager
+# =============================================================================
+# This file defines global settings and hooks for 'fedup sync'.
+# Edit this file, then run: fedup sync
+#
+# All .toml files in this directory are merged together, so you can split
+# your config across multiple files however you like.
+# =============================================================================
+
+[settings]
+# ── auto_prune ──────────────────────────────────────────────────────────────
+# When true, 'fedup sync' removes any package that is:
+#   1. Managed by fedup (added via 'add' or 'migrate')
+#   2. NOT listed in packages.toml's install array
+#
+# This gives you a true declarative setup: declare what you want, and fedup
+# removes the rest. You will be prompted before any removal (use -y to skip).
+# Default: false
+auto_prune = true
+
+# ── enable_rpmfusion ─────────────────────────────────────────────────────────
+# When true, automatically installs RPM Fusion free and nonfree repositories
+# before syncing dnf packages. This is needed if you install packages from
+# RPM Fusion (like nvidia drivers, multimedia codecs, etc.).
+#
+# This is equivalent to adding rpmfusion entries to repos.toml, but is a
+# convenient shortcut. The repos are only installed if not already present.
+# Default: false
+enable_rpmfusion = true
+
+# =============================================================================
+# HOOKS
+# =============================================================================
+# Hooks are commands that run before and after modules during 'fedup sync'.
+# They run in order and if one fails, the remaining hooks in that list still run
+# (errors are reported at the end).
+#
+# ── Hook forms ───────────────────────────────────────────────────────────────
+# String:   "command"                              → runs every sync
+# Object:   { cmd = "...", once = true }            → runs once (tracked in state)
+#           { cmd = "...", unless = "test ..." }    → runs only if the test fails
+#
+# ── Common use cases ─────────────────────────────────────────────────────────
+#   • Clone dotfiles repo if not present:
+#     { cmd = "git clone git@github.com:user/dotfiles.git /tmp/dotfiles",
+#       unless = "test -d /tmp/dotfiles" }
+#
+#   • Run Neovim plugin sync once after first install:
+#     { cmd = "nvim --headless '+Lazy! sync' +qa", once = true }
+#
+#   • Refresh package cache before installing:
+#     "sudo dnf makecache"
+#
+# ── Per-module hooks ─────────────────────────────────────────────────────────
+# Hooks can be scoped to specific modules by defining them in that module's
+# config. For example, in packages.toml:
+#   [dnf.hooks]
+#   pre = ["sudo dnf makecache"]
+#
+# Supported per-module hook sections:
+#   [dnf.hooks]  [git.hooks]  [dotfiles.hooks]  [services.hooks]
+# =============================================================================
+
+[hooks]
+pre = [
+    "echo 'Starting fedup sync...'",
+    # { cmd = "git clone git@github.com:user/dotfiles.git /tmp/dotfiles", unless = "test -d /tmp/dotfiles" },
+    # { cmd = "nvim --headless '+Lazy! sync' +qa", once = true },
+]
+post = [
+    "echo 'Done!'",
+]

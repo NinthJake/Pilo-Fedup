@@ -1,0 +1,21 @@
+# mako notification daemon — vague.nvim palette (managed by fedup)
+
+font=FiraCode Nerd Font 11
+
+background-color=#1c1c24
+text-color=#cdcdcd
+border-color=#252530
+progress-color=over #b4d4cf
+
+width=360
+margin=20
+padding=12
+border-size=2
+border-radius=8
+
+default-timeout=5000
+group-by=app-name
+
+[urgency=high]
+border-color=#d8647e
+default-timeout=0

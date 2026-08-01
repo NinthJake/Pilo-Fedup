@@ -1,0 +1,27 @@
+# =============================================================================
+# Dotfile symlinks
+# =============================================================================
+# fedup creates symlinks from your dotfiles repository to their expected
+# locations. This lets you keep all dotfiles in one repo while still having
+# them in the right places.
+#
+# Each entry has:
+#   target — Where the actual files live (source)
+#   link   — Where the symlink should be created (destination)
+#
+# If a file already exists at the link path and isn't a fedup symlink, fedup
+# will ask before replacing it. Existing files are backed up to
+# ~/.local/share/fedup/backups/ before being replaced.
+#
+# Common dotfile locations:
+#   ~/.config/nvim       — Neovim config
+#   ~/.config/kitty      — Kitty terminal config
+#   ~/.bashrc            — Bash config
+#   ~/.config/wezterm    — WezTerm config
+#   ~/.config/gtk-3.0    — GTK settings
+# =============================================================================
+
+[dotfiles]
+symlinks = [
+{ target = "~/.config/fedup/dotfiles/bashrc/.bashrc", link = "~/.bashrc"},
+]

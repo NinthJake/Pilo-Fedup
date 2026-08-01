@@ -1,0 +1,35 @@
+# =============================================================================
+# Git repositories
+# =============================================================================
+# fedup will clone these repositories and keep them updated with 'git pull'.
+#
+# Use cases:
+#   • Clone your dotfiles repo and symlink files into place via dotfiles.toml
+#   • Clone Neovim plugin repos or other tool dependencies
+#   • Keep project repos up to date across machines
+#
+# Repo entry fields:
+#   url    — Git remote URL (HTTPS or SSH)
+#           SSH example:   git@github.com:user/repo.git
+#           HTTPS example: https://github.com/user/repo.git
+#   path   — Local directory to clone into (supports ~ expansion)
+#           Example: ~/.config/nvim, ~/projects/myproject
+#   pull   — Whether to run 'git pull --ff-only' on every sync (default: true)
+#           Set to false for repos you want to clone once and never update
+#   branch — Optional branch to clone (default: remote default branch)
+#           Example: "main", "develop", "v2.0"
+#
+# SSH key setup:
+#   If you use SSH URLs and get "Permission denied", generate a key:
+#     ssh-keygen -t ed25519 -f ~/.ssh/id_ed25519
+#   Then add ~/.ssh/id_ed25519.pub to your git hosting service.
+#
+# SSH config (optional, for custom keys):
+#   Host codeberg.org
+#     IdentityFile ~/.ssh/id_ed25519_codeberg
+# =============================================================================
+
+[git]
+repos = [
+
+]
