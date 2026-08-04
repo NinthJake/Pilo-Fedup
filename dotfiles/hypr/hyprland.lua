@@ -45,9 +45,11 @@ hl.on("hyprland.start", function ()
     hl.exec_cmd("waybar")
     hl.exec_cmd("mako")
     hl.exec_cmd("hyprpaper")
-    -- Picks one random wallpaper per monitor via hyprpaper's IPC, once per
-    -- session (see the comment atop hyprpaper.conf for why it's done here
-    -- instead of hyprpaper's built-in directory rotation).
+    -- Rotates a random wallpaper per monitor via hyprpaper's IPC on an
+    -- interval, crossfading between them (see the comment atop hyprpaper.conf
+    -- for why it's done here instead of hyprpaper's built-in directory
+    -- rotation). Runs forever in the background; set WALLPAPER_ROTATE_INTERVAL
+    -- to change the interval (seconds, default 300).
     hl.exec_cmd("~/.config/hypr/random-wallpaper.sh")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("hyprpolkitagent")
@@ -142,6 +144,10 @@ hl.config({
 hl.animation({ leaf = "windows",    enabled = true, speed = 4.79, bezier = "default" })
 hl.animation({ leaf = "fade",       enabled = true, speed = 3.03, bezier = "default" })
 hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "default", style = "fade" })
+-- Layer surfaces (waybar, mako, wofi, hyprpaper, ...) get their own fade
+-- animation, separate from "fade" above; this is what makes the hyprpaper
+-- crossfade below (and the other layer_rules further down) actually animate.
+hl.animation({ leaf = "fadeLayers", enabled = true, speed = 60, bezier = "default" })
 
 hl.config({
     dwindle = {
@@ -155,8 +161,9 @@ hl.config({
 
 hl.config({
     misc = {
-        force_default_wallpaper = -1, -- 0/1 disables the anime mascot wallpaper
-        disable_hyprland_logo   = false,
+        force_default_wallpaper = 0, -- 0/1 disables the anime mascot wallpaper
+        disable_hyprland_logo   = true,
+        background_color        = 0x1a1a1a,
     },
 })
 
@@ -245,8 +252,8 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
 
 -- Screenshots: Print = select area, SHIFT+Print = full screen (both to clipboard)
-hl.bind("Print",         hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy && notify-send -t 2000 "Screenshot" "Area copied to clipboard"]]))
-hl.bind("SHIFT + Print", hl.dsp.exec_cmd([[grim - | wl-copy && notify-send -t 2000 "Screenshot" "Fullscreen copied to clipboard"]]))
+hl.bind(mainMod .. " + P",         hl.dsp.exec_cmd([[grim -g "$(slurp)" - | wl-copy && notify-send -t 2000 "Screenshot" "Area copied to clipboard"]]))
+hl.bind(mainMod .. " + SHIFT + P", hl.dsp.exec_cmd([[grim - | wl-copy && notify-send -t 2000 "Screenshot" "Fullscreen copied to clipboard"]]))
 
 -- Volume and brightness
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
@@ -283,6 +290,17 @@ hl.window_rule({
 })
 
 hl.window_rule({
+    -- Force full opacity for apps that render their own translucency/blur
+    -- (or that just look wrong with the compositor's opacity/blur applied on
+    -- top, e.g. games): terminal, browser, RuneLite, Steam games, gamescope.
+    -- Adjust the class list to match `hyprctl clients` on this machine.
+    name  = "no-compositor-opacity",
+    match = { class = "^(foot|brave-origin-nightly|net-runelite.*|steam_app_.*|gamescope)$" },
+
+    opacity = "1.0 override 1.0 override 1.0 override",
+})
+
+hl.window_rule({
     -- Fix some dragging issues with XWayland
     name  = "fix-xwayland-drags",
     match = {
@@ -295,4 +313,48 @@ hl.window_rule({
     },
 
     no_focus = true,
+})
+
+----------------
+---- LAYERS ----
+----------------
+
+hl.layer_rule({
+    name  = "blur-waybar",
+    match = { namespace = "^waybar$" },
+
+    blur         = true,
+    ignore_alpha = 0.2,
+    no_anim      = true,
+})
+
+-- mako's layer namespace is "notifications" (verified with `hyprctl layers`).
+-- Mirrors "blur-waybar" so notifications read the same as the bar; animation is
+-- left enabled here, unlike waybar, so notifications still fade in.
+hl.layer_rule({
+    name  = "blur-notifications",
+    match = { namespace = "^notifications$" },
+
+    blur         = true,
+    ignore_alpha = 0.2,
+})
+
+hl.layer_rule({
+    name  = "blur-wofi",
+    match = { namespace = "^wofi$" },
+
+    blur         = true,
+    blur_popups  = true,
+    ignore_alpha = 0.2,
+    no_anim      = true,
+})
+
+-- Crossfade hyprpaper's wallpaper on change (e.g. from random-wallpaper.sh or
+-- `hyprctl hyprpaper wallpaper`) instead of an abrupt swap. Needs the
+-- "fadeLayers" animation above enabled to actually animate.
+hl.layer_rule({
+    name  = "wallpaper-crossfade",
+    match = { namespace = "^hyprpaper$" },
+
+    animation = "fade",
 })
