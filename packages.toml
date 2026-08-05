@@ -28,7 +28,7 @@ install = [
 
 [pip]
 install = [
-
+    "piper-onnx"
 ]
 
 [npm]
