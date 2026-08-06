@@ -272,6 +272,44 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 ---- WINDOWS AND WORKSPACES ----
 --------------------------------
 
+-- Deterministic home workspaces per screen, so autostart apps and the
+-- SUPER+[0-9] binds always land on the same monitor:
+--   ws 1-2 -> middle (HDMI-A-1), ws 3 -> left (DP-2), ws 10 -> right (DP-1)
+hl.workspace_rule({ workspace = "1",  monitor = "HDMI-A-1", default = true })
+hl.workspace_rule({ workspace = "2",  monitor = "HDMI-A-1" })
+hl.workspace_rule({ workspace = "3",  monitor = "DP-2",     default = true })
+hl.workspace_rule({ workspace = "10", monitor = "DP-1",     default = true })
+
+-- Autostart app placement (the apps themselves are launched from
+-- ~/.config/autostart): Firefox + Steam on the middle screen, Discord on the
+-- right screen. "silent" = open on the target workspace without switching
+-- the view/focus to it. Applies to every new window of the class, not just
+-- the autostarted one.
+hl.window_rule({
+    name  = "autostart-firefox",
+    match = {
+        class = "^(firefox|org\\.mozilla\\.firefox)$",
+        -- ...but not picture-in-picture popups; those stay where you are
+        title = "negative:^[Pp]icture[- ]in[- ][Pp]icture$",
+    },
+
+    workspace = "1 silent",
+})
+
+hl.window_rule({
+    name  = "autostart-steam",
+    match = { class = "^steam$" },
+
+    workspace = "2 silent",
+})
+
+hl.window_rule({
+    name  = "autostart-discord",
+    match = { class = "^vesktop$" },
+
+    workspace = "10 silent",
+})
+
 hl.window_rule({
     -- Browser picture-in-picture windows always float
     -- (Firefox: "Picture-in-Picture", Chromium/Brave: "Picture in picture")
