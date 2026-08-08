@@ -73,8 +73,9 @@ pre = [
     { cmd = "curl -SsL https://github.com/nymtech/nym-vpn-client/releases/download/nym-vpn-v2026.11.0/install | bash", unless = "test -f /usr/bin/nym-vpnd" },
     # { cmd = "git clone git@github.com:user/dotfiles.git /tmp/dotfiles", unless = "test -d /tmp/dotfiles" },
     # { cmd = "nvim --headless '+Lazy! sync' +qa", once = true },
+    # Install Cursor agent if not already installed
+    { cmd = "curl https://cursor.com/install -fsS | bash", unless = "test -f ~/.local/bin/cursor-agent" },
 ]
 post = [
-	{ cmd = "curl https://cursor.com/install -fsS | bash" },
     "echo 'Done!'",
 ]
