@@ -24,5 +24,5 @@
 [dotfiles]
 symlinks = [
 { target = "~/.config/fedup/dotfiles/bashrc/.bashrc", link = "~/.bashrc"},
-{ target = "~/.config/fedup/dotDesktop/cursor.AppImage", link ="~/.local/share/applications/cursor.desktop"},
+{ target = "~/.config/fedup/dotDesktop/cursor.desktop", link ="~/.local/share/applications/cursor.desktop"},
 ]
