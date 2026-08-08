@@ -11,7 +11,7 @@
 
 [services]
 enable = [
-
+    "nym-vpnd.service"
 ]
 disable = [
 

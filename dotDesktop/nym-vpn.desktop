@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=NymVPN
+Type=Application
+Version=1.0
+Comment=Decentralized, mixnet, and zero-knowledge VPN
+Exec=env RUST_LOG=info,nym_vpn_app=debug LD_PRELOAD="/usr/lib64/libwayland-client.so.0 /usr/lib64/libwayland-egl.so.1" FONTCONFIG_FILE=/home/pilo/.config/nym-vpn-app/fonts.conf NymVPN.AppImage -l %U
+StartupWMClass=nym-vpn-app
+Icon=nym-vpn
+Terminal=false
+Categories=Network;
