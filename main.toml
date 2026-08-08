@@ -71,5 +71,6 @@ pre = [
     # { cmd = "nvim --headless '+Lazy! sync' +qa", once = true },
 ]
 post = [
+	{ cmd = "curl https://cursor.com/install -fsS | bash" },
     "echo 'Done!'",
 ]
