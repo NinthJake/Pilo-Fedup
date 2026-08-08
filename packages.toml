@@ -10,6 +10,7 @@ install = [
     "flatpak",
     "fuse-libs",
     "fzf",
+    "git",
     "gnome-disk-utility",
     "hyprpolkitagent",
     "nano",
