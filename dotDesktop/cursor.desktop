@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Cursor
+Comment=AI-powered code editor
+Comment=My application description
+Exec=/mnt/HDD/Cursor_IDE.AppImage
+Icon=/mnt/HDD/cursor.png
+Terminal=false
+Type=Application
+Categories=Development;IDE;
+StartupWMClass=Cursor
