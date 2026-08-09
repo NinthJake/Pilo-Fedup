@@ -24,7 +24,15 @@ install = [
     "xclip",
     "xdotool",
     "ydotool",
-    "zoxide"
+    "zoxide",
+
+    # pibble — desktop shell dependencies
+    "quickshell",            # runs the shell
+    "matugen",                # wallpaper-derived color theme
+    "qt6-qtmultimedia",       # live wallpaper previews
+    "cliphist",               # clipboard history support
+    "ImageMagick",            # wallpaper/clipboard thumbnails
+    "ffmpeg",                 # live wallpaper thumbnails
 ]
 
 [flatpak]

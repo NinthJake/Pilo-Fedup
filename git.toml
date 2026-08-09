@@ -31,5 +31,17 @@
 
 [git]
 repos = [
+    # pibble — desktop shell (launcher, flyouts, wallpaper picker) for Hyprland.
+    # Cloned to ~/.config/pibble; the `pibble` script is symlinked into
+    # ~/.local/bin via dotfiles.toml. pull = false so a fedup sync never
+    # updates it out from under a running daemon.
+    { url = "https://github.com/kianblakley/pibble.git", path = "~/.config/pibble", pull = false },
+]
 
+# Seed pibble's settings.json (wallpaper backend = hyprpaper, wallpaper folder
+# = the pika collection) on first install. The script self-skips once the file
+# exists, so in-app changes are never clobbered by a sync.
+[git.hooks]
+post = [
+    { cmd = "bash ~/.config/fedup/dotfiles/pibble/seed-settings.sh" },
 ]

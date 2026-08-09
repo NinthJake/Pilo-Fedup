@@ -43,14 +43,12 @@ local fileManager = "dolphin"
 
 hl.on("hyprland.start", function ()
     hl.exec_cmd("waybar")
-    hl.exec_cmd("mako")
     hl.exec_cmd("hyprpaper")
-    -- Rotates a random wallpaper per monitor via hyprpaper's IPC on an
-    -- interval, crossfading between them (see the comment atop hyprpaper.conf
-    -- for why it's done here instead of hyprpaper's built-in directory
-    -- rotation). Runs forever in the background; set WALLPAPER_ROTATE_INTERVAL
-    -- to change the interval (seconds, default 300).
-    hl.exec_cmd("~/.config/hypr/random-wallpaper.sh")
+    -- pibble — desktop shell (launcher, notification/volume flyouts, wallpaper
+    -- picker). Started as a persistent daemon; SUPER+Space toggles the
+    -- launcher. pibble owns org.freedesktop.Notifications, so mako is no
+    -- longer started here.
+    hl.exec_cmd("pibble start")
     hl.exec_cmd("hypridle")
     hl.exec_cmd("hyprpolkitagent")
 end)
@@ -202,6 +200,8 @@ hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 -- Open the app launcher by tapping SUPER alone (fires on release, so it
 -- won't trigger when SUPER is used as a modifier for other binds below)
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(menu), { release = true })
+-- pibble launcher (clock, apps, wallpapers, clipboard) — SUPER+Space
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("pibble toggle"))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
@@ -395,4 +395,17 @@ hl.layer_rule({
     match = { namespace = "^hyprpaper$" },
 
     animation = "fade",
+})
+
+-- pibble — desktop shell layer surfaces (launcher + notification/volume
+-- flyouts). Blur the launcher and flyouts like waybar/wofi so they read as
+-- frosted glass over the desktop; the launcher's own backdrop is handled by
+-- pibble's in-app "xray" blur setting, so compositor blur here is a light
+-- touch. Namespaces: pibble-launcher, pibble-notifications, pibble-volume.
+hl.layer_rule({
+    name  = "blur-pibble",
+    match = { namespace = "^(pibble-launcher|pibble-notifications|pibble-volume)$" },
+
+    blur         = true,
+    ignore_alpha = 0.2,
 })
