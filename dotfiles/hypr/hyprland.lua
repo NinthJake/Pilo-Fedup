@@ -49,13 +49,22 @@ local fileManager = "dolphin"
 -------------------
 
 hl.on("hyprland.start", function ()
-    hl.exec_cmd("waybar")
+    -- Start waybar via its systemd user service (shipped by the waybar
+    -- package; Restart=on-failure auto-respawns it if a module crashes, e.g.
+    -- the known mpris/playerctl segfault). --user, since it's a session
+    -- process needing WAYLAND_DISPLAY.
+    hl.exec_cmd("systemctl --user start waybar.service")
     hl.exec_cmd("hyprpaper")
     -- pibble — desktop shell (launcher, notification/volume flyouts, wallpaper
     -- picker). Started as a persistent daemon; SUPER+Space toggles the
     -- launcher. pibble owns org.freedesktop.Notifications, so mako is no
     -- longer started here.
     hl.exec_cmd("pibble start")
+    -- Clipboard watchers for pibble's clipboard history: pipe text + image
+    -- clipboard changes into cliphist (which pibble reads). Each is a
+    -- long-lived background process. Requires wl-paste.
+    hl.exec_cmd("wl-paste --type text --watch cliphist store")
+    hl.exec_cmd("wl-paste --type image --watch cliphist store")
     -- Regenerate matugen colors from the current wallpaper at login (no-op
     -- if matugen hasn't run yet / no wallpaper recorded). Runs after the
     -- daemons above so hyprctl reload and the waybar SIGUSR2 land on live
