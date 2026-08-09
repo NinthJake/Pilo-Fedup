@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# NymVPN AppImage wrapper — workarounds for Fedora/Wayland.
+#
+# The AppImage bundles Ubuntu 22.04-era libraries which break it on a modern
+# system in two ways:
+#   1. Bundled libwayland-egl/libwayland-client are incompatible with current
+#      Mesa -> EGL init fails -> WebKitWebProcess aborts -> gray window.
+#      Fix: preload the system Wayland libraries.
+#   2. Bundled WebKitGTK's Skia crashes (SIGABRT, colrv1_configure_skpaint)
+#      rendering COLRv1 color fonts (Noto Color Emoji).
+#      Fix: app-scoped fontconfig that rejects the COLRv1 emoji font.
+#
+# Point all launchers (desktop entry, autostart, deep-link handler) here.
+export LD_PRELOAD="/usr/lib64/libwayland-client.so.0 /usr/lib64/libwayland-egl.so.1"
+export FONTCONFIG_FILE="$HOME/.config/nym-vpn-app/fonts.conf"
+export RUST_LOG="info,nym_vpn_app=debug"
+exec /usr/bin/NymVPN.AppImage "$@"

@@ -75,6 +75,8 @@ pre = [
     # { cmd = "nvim --headless '+Lazy! sync' +qa", once = true },
     # Install Cursor agent if not already installed
     { cmd = "curl https://cursor.com/install -fsS | bash", unless = "test -f ~/.local/bin/cursor-agent" },
+    # Install opencode if not already installed
+    { cmd = "curl -fsSL https://opencode.ai/install | bash", unless = "test -f ~/.opencode/bin/opencode" },
     # Download pika wallpapers (only backgrounds/pika/ from the repo) if missing
     { cmd = 'tmp=$(mktemp -d) && git clone --depth 1 https://github.com/PikaOS-Linux/pkg-pika-wallpapers.git "$tmp/repo" && mkdir -p ~/Pictures/Wallpapers/pika && cp -a "$tmp/repo/backgrounds/pika/." ~/Pictures/Wallpapers/pika/ && rm -rf "$tmp"', unless = "test -d ~/Pictures/Wallpapers/pika" },
 ]

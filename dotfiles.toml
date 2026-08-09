@@ -27,4 +27,5 @@ symlinks = [
 { target = "~/.config/fedup/dotDesktop/cursor.desktop", link ="~/.local/share/applications/cursor.desktop"},
 { target = "~/.config/fedup/dotDesktop/nym-vpn.desktop", link = "~/.local/share/applications/nym-vpn.desktop"},
 { target = "~/.config/fedup/dotfiles/nym-vpn/fonts.conf", link = "~/.config/nym-vpn-app/fonts.conf"},
+{ target = "~/.config/fedup/dotfiles/nym-vpn/nym-vpn", link = "~/.local/bin/nym-vpn"},
 ]
