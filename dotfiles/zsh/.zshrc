@@ -64,3 +64,5 @@ alias lt='eza -T --group-directories-first'
 
 # added by fedup (npm global)
 export PATH="$HOME/.npm-global/bin":$PATH
+
+. "$HOME/.local/share/../bin/env"

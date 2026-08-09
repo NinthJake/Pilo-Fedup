@@ -299,3 +299,5 @@ unset rc
 # PROMPT_COMMAND and sees all functions defined above
 eval "$(zoxide init bash)"
 . "$HOME/.cargo/env"
+
+. "$HOME/.local/share/../bin/env"
