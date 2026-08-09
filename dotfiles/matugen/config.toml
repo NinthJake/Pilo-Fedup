@@ -1,0 +1,17 @@
+# matugen config (managed by fedup)
+# Generates color files for Hyprland and waybar from the current wallpaper.
+# Run `matugen-apply <image>` (or pick a wallpaper in pibble) to regenerate
+# and reload everything.
+#
+# Relative input_paths resolve from this file's directory.
+
+[config]
+prefer = "saturation"
+
+[templates.hyprland]
+input_path = "./templates/hyprland-colors.lua"
+output_path = "~/.cache/matugen/hyprland-colors.lua"
+
+[templates.waybar]
+input_path = "./templates/waybar-colors.css"
+output_path = "~/.cache/matugen/waybar-colors.css"

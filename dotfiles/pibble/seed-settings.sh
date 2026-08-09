@@ -3,9 +3,10 @@
 #
 # pibble persists its user config in quickshell's per-shell state dir, keyed
 # by an md5 of the path to shell.qml (see the `pibble` script's
-# export_icon_theme). This hook writes that file with the wallpaper backend
-# wired to hyprpaper (the user's chosen manager) and the wallpaper folder
-# pointed at the pika collection.
+# export_icon_theme). This hook writes that file with the wallpaper folder
+# pointed at the pika collection and the wallpaper command wired to
+# matugen-apply, which sets the wallpaper via hyprpaper AND regenerates the
+# matugen colors for Hyprland/waybar.
 #
 # Only runs when settings.json does not exist yet, so any in-app changes the
 # user makes later are never clobbered by a fedup sync.
@@ -22,6 +23,6 @@ mkdir -p "$settings_dir"
 cat > "$settings" <<'JSON'
 {
     "wallpaperDir": "~/Pictures/Wallpapers/pika",
-    "wallCommand": "for m in $(hyprctl monitors -j | jq -r '.[].name'); do hyprctl hyprpaper wallpaper \"$m,$WALL\"; done"
+    "wallCommand": "matugen-apply \"$WALL\""
 }
 JSON

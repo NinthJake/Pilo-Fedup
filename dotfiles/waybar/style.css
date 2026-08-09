@@ -1,12 +1,10 @@
-/* waybar style — vague.nvim palette (managed by fedup)
-   https://github.com/vague2k/vague.nvim */
+/* waybar style — matugen palette (managed by fedup)
+   Colors are generated from the current wallpaper by matugen into
+   ~/.cache/matugen/waybar-colors.css (see ~/.config/matugen/config.toml) and
+   imported below. The @import path is relative to this file's symlink location
+   (~/.config/waybar/), so ../../.cache resolves to ~/.cache. */
 
-/* palette:
-   bg #141415  inactiveBg #1c1c24  fg #cdcdcd
-   line #252530  comment #606079
-   builtin #b4d4cf (teal)  keyword #6e94b2 (steel)  hint #7e98e8 (periwinkle)
-   error #d8647e  warning #f3be7c  plus #7fa563
-*/
+@import "../../.cache/matugen/waybar-colors.css";
 
 * {
   font-family: "FiraCode Nerd Font", monospace;
@@ -17,9 +15,9 @@
 }
 
 window#waybar {
-  background-color: rgba(20, 20, 21, 0.92);
-  color: #cdcdcd;
-  border-bottom: 2px solid #252530;
+  background-color: @bg;
+  color: @fg;
+  border-bottom: 2px solid @bg_alt;
 }
 
 /* ── workspaces ─────────────────────────────────────────── */
@@ -29,36 +27,36 @@ window#waybar {
 
 #workspaces button {
   padding: 0 8px;
-  color: #606079;
+  color: @muted;
   border-bottom: 2px solid transparent;
 }
 
 #workspaces button:hover {
-  color: #cdcdcd;
+  color: @fg;
   background-color: transparent;
   box-shadow: none;
   text-shadow: none;
 }
 
 #workspaces button.active {
-  color: #b4d4cf;
-  border-bottom: 2px solid #b4d4cf;
+  color: @accent;
+  border-bottom: 2px solid @accent;
 }
 
 #workspaces button.urgent {
-  color: #d8647e;
+  color: @error;
 }
 
 /* ── window title ───────────────────────────────────────── */
 #window {
-  color: #606079;
+  color: @muted;
   font-style: italic;
   padding: 0 12px;
 }
 
 /* ── clock ──────────────────────────────────────────────── */
 #clock {
-  color: #b4d4cf;
+  color: @accent;
   font-weight: bold;
 }
 
@@ -74,85 +72,85 @@ window#waybar {
 #temperature,
 #tray {
   padding: 0 10px;
-  color: #cdcdcd;
+  color: @fg;
 }
 
 #power-profiles-daemon.performance {
-  color: #d8647e;
+  color: @error;
 }
 
 #power-profiles-daemon.balanced {
-  color: #b4d4cf;
+  color: @accent;
 }
 
 #power-profiles-daemon.power-saver {
-  color: #7fa563;
+  color: @success;
 }
 
 #idle_inhibitor {
-  color: #606079;
+  color: @muted;
 }
 
 #idle_inhibitor.activated {
-  color: #f3be7c;
+  color: @warning;
 }
 
 #mpris {
-  color: #aeaed1;
+  color: @accent2;
 }
 
 #mpris.paused {
-  color: #606079;
+  color: @muted;
 }
 
 #backlight {
-  color: #e0a363;
+  color: @warning;
 }
 
 #bluetooth {
-  color: #7e98e8;
+  color: @hint;
 }
 
 #bluetooth.off,
 #bluetooth.disabled {
-  color: #606079;
+  color: @muted;
 }
 
 #bluetooth.connected {
-  color: #b4d4cf;
+  color: @accent;
 }
 
 #network {
-  color: #7e98e8;
+  color: @hint;
 }
 
 #network.disconnected {
-  color: #d8647e;
+  color: @error;
 }
 
 #pulseaudio.muted {
-  color: #606079;
+  color: @muted;
 }
 
 #battery.warning {
-  color: #f3be7c;
+  color: @warning;
 }
 
 #battery.critical {
-  color: #d8647e;
+  color: @error;
 }
 
 #battery.charging,
 #battery.full {
-  color: #7fa563;
+  color: @success;
 }
 
 #temperature {
-  color: #606079;
+  color: @muted;
 }
 
 #temperature.critical {
-  color: #d8647e;
+  color: @error;
 }
 
 #tray {
@@ -161,7 +159,7 @@ window#waybar {
 
 /* tooltip */
 tooltip {
-  background-color: #1c1c24;
-  color: #cdcdcd;
-  border: 1px solid #252530;
+  background-color: @bg_alt;
+  color: @fg;
+  border: 1px solid @muted;
 }

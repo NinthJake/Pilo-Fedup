@@ -29,4 +29,6 @@ symlinks = [
 { target = "~/.config/fedup/dotfiles/nym-vpn/fonts.conf", link = "~/.config/nym-vpn-app/fonts.conf"},
 { target = "~/.config/fedup/dotfiles/nym-vpn/nym-vpn", link = "~/.local/bin/nym-vpn"},
 { target = "~/.config/pibble/pibble", link = "~/.local/bin/pibble"},
+{ target = "~/.config/fedup/dotfiles/matugen", link = "~/.config/matugen"},
+{ target = "~/.config/fedup/dotfiles/matugen/matugen-apply.sh", link = "~/.local/bin/matugen-apply"},
 ]

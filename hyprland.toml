@@ -26,8 +26,6 @@ install = [
     "hyprland",
     "hyprland-guiutils",
     "hyprpaper",
-    "hyprlock",
-    "hypridle",
     "hyprpolkitagent",
     "xdg-desktop-portal-hyprland",
 
