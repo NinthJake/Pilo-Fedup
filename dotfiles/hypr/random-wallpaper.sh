@@ -18,6 +18,12 @@ wallpaper_dir="/home/pilo/Pictures/Wallpapers/pika"
 monitors=(HDMI-A-1 DP-1 DP-2)
 interval="${WALLPAPER_ROTATE_INTERVAL:-300}" # seconds between rotations
 
+# Pinning: matugen-apply touches this file when a wallpaper is picked explicitly
+# (e.g. from the pibble launcher), which tells this daemon to stop rotating for
+# the rest of the session. Cleared on every login so rotation starts fresh.
+pinned_file="${WALLPAPER_PINNED_FILE:-$HOME/.cache/random-wallpaper-pinned}"
+rm -f "$pinned_file"
+
 # Wait for hyprpaper's IPC socket to come up (it's started just before this script).
 for _ in $(seq 1 40); do
     hyprctl hyprpaper listactive >/dev/null 2>&1 && break
@@ -46,5 +52,8 @@ rotate() {
 rotate
 while true; do
     sleep "$interval"
+    # A wallpaper was pinned via pibble — stop rotating (checked before rotate
+    # so a pinned wallpaper set mid-interval is never overwritten).
+    [[ -f "$pinned_file" ]] && exit 0
     rotate
 done

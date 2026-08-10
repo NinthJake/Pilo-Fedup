@@ -4,13 +4,6 @@
 -- Docs: https://wiki.hypr.land/Configuring/Start/
 -- =============================================================================
 
--- matugen-generated palette (see ~/.config/matugen/config.toml). Regenerated
--- on every wallpaper change by matugen-apply; hyprctl reload picks it up.
--- pcall guards a missing file (fresh install before the first matugen run),
--- falling back to an empty table so the hardcoded colors below still apply.
-local ok, colors = pcall(require, "~/.cache/matugen/hyprland-colors.lua")
-if not ok then colors = {} end
-
 ------------------
 ---- MONITORS ----
 ------------------
@@ -55,6 +48,10 @@ hl.on("hyprland.start", function ()
     -- process needing WAYLAND_DISPLAY.
     hl.exec_cmd("systemctl --user start waybar.service")
     hl.exec_cmd("hyprpaper")
+    -- Random per-monitor wallpaper daemon (see random-wallpaper.sh). Long-lived;
+    -- waits for hyprpaper's IPC socket itself, so it can start right behind
+    -- hyprpaper. Pauses automatically when a wallpaper is picked in pibble.
+    hl.exec_cmd("~/.config/hypr/random-wallpaper.sh")
     -- pibble — desktop shell (launcher, notification/volume flyouts, wallpaper
     -- picker). Started as a persistent daemon; SUPER+Space toggles the
     -- launcher. pibble owns org.freedesktop.Notifications, so mako is no
@@ -65,10 +62,9 @@ hl.on("hyprland.start", function ()
     -- long-lived background process. Requires wl-paste.
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
-    -- Regenerate matugen colors from the current wallpaper at login (no-op
-    -- if matugen hasn't run yet / no wallpaper recorded). Runs after the
-    -- daemons above so hyprctl reload and the waybar SIGUSR2 land on live
-    -- processes.
+    -- Restore the last-picked wallpaper (or a random pick on a fresh
+    -- install) via matugen-apply. Runs after the daemons above so the
+    -- hyprpaper IPC socket is up.
     hl.exec_cmd("matugen-apply")
     hl.exec_cmd("hyprpolkitagent")
 end)
@@ -116,12 +112,12 @@ hl.config({
         gaps_out    = 4,
         border_size = 2,
 
-        -- matugen palette (see the require at the top): accent -> primary,
-        -- accent2 -> secondary, muted -> outline. Falls back to the vague.nvim
-        -- colors if matugen hasn't run yet.
+        -- vague.nvim palette: teal builtin -> steel keyword gradient, muted
+        -- comment inactive. (Kept hardcoded — the matugen palette was too
+        -- subtle to read as a focus highlight.)
         col = {
-            active_border   = { colors = { colors.accent or "rgba(b4d4cfee)", colors.accent2 or "rgba(6e94b2ee)" }, angle = 45 },
-            inactive_border = colors.muted or "rgba(606079aa)",
+            active_border   = { colors = { "rgba(b4d4cfee)", "rgba(6e94b2ee)" }, angle = 45 },
+            inactive_border = "rgba(606079aa)",
         },
 
         resize_on_border = false,
