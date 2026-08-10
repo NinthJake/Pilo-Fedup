@@ -32,7 +32,7 @@ install = [
     "qt6-qtmultimedia",       # live wallpaper previews
     "cliphist",               # clipboard history support
     "ImageMagick",            # wallpaper/clipboard thumbnails
-    "ffmpeg",                 # live wallpaper thumbnails
+    "ffmpeg", "firefox",                 # live wallpaper thumbnails
 ]
 
 [flatpak]
