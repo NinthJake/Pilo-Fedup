@@ -28,4 +28,5 @@ symlinks = [
 { target = "~/.config/pibble/pibble", link = "~/.local/bin/pibble"},
 { target = "~/.config/fedup/dotfiles/matugen", link = "~/.config/matugen"},
 { target = "~/.config/fedup/dotfiles/matugen/matugen-apply.sh", link = "~/.local/bin/matugen-apply"},
+{ target = "~/.config/fedup/dotfiles/starship.toml", link = "~/.config/starship.toml"},
 ]
