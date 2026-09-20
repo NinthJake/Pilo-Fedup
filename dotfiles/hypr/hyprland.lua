@@ -189,9 +189,10 @@ hl.config({
 
 hl.config({
     input = {
-        kb_layout          = "se",
+kb_layout          = "se",
         follow_mouse       = 1,
         sensitivity        = 0,
+        force_no_accel     = true, -- disable mouse acceleration (1:1 movement)
         numlock_by_default = true, -- turn Num Lock on at startup
 
         touchpad = {
