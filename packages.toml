@@ -38,6 +38,7 @@ install = [
 [flatpak]
 install = [
     "com.github.tchx84.Flatseal",
+    "com.usebottles.bottles",
     "io.github.kolunmi.Bazaar"
 ]
 
@@ -48,6 +49,6 @@ install = [
 
 [npm]
 install = [
-    "bottles"
+
 ]
 
