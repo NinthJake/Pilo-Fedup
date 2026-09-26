@@ -8,33 +8,20 @@
 ---- MONITORS ----
 ------------------
 
-hl.monitor({
-    output   = "HDMI-A-1",
-    mode     = "2560x1440@144",
-    position = "0x0",
-    scale    = "1",
-})
-
-hl.monitor({
-    output   = "DP-1",
-    mode     = "2560x1440@60",
-    position = "auto-right",
-    scale    = "1",
-})
-
-hl.monitor({
-    output   = "DP-2",
-    mode     = "2560x1440@60",
-    position = "auto-left",
-    scale    = "auto",
-})
+-- Monitor setup lives in monitors.lua so the pilo Monitors widget can rewrite
+-- it independently of the rest of the config. See that file for field meanings.
+for _, monitor in ipairs(require("monitors")) do
+    hl.monitor(monitor)
+end
 
 ---------------------
 ---- MY PROGRAMS ----
 ---------------------
 
 local terminal    = "foot"
-local menu        = "wofi --show drun"
+-- Launcher is the pilo Quickshell bar's app launcher (opens on the focused
+-- screen). Was `wofi --show drun`.
+local menu        = "qs -c pilo ipc call pilo toggle launcher"
 local fileManager = "dolphin"
 
 -------------------
@@ -42,11 +29,10 @@ local fileManager = "dolphin"
 -------------------
 
 hl.on("hyprland.start", function ()
-    -- Start waybar via its systemd user service (shipped by the waybar
-    -- package; Restart=on-failure auto-respawns it if a module crashes, e.g.
-    -- the known mpris/playerctl segfault). --user, since it's a session
-    -- process needing WAYLAND_DISPLAY.
-    hl.exec_cmd("systemctl --user start waybar.service")
+    -- pilo bar — Quickshell config at ~/.config/quickshell/pilo. Replaces
+    -- waybar (waybar.service is disabled). -n exits a duplicate instance so a
+    -- Hyprland reload does not stack a second bar.
+    hl.exec_cmd("qs -c pilo -n")
     hl.exec_cmd("hyprpaper")
     -- Random per-monitor wallpaper daemon (see random-wallpaper.sh). Long-lived;
     -- waits for hyprpaper's IPC socket itself, so it can start right behind
@@ -190,7 +176,7 @@ hl.config({
 hl.config({
     input = {
 kb_layout          = "se",
-        follow_mouse       = 1,
+        follow_mouse       = 0,
         sensitivity        = 0,
         force_no_accel     = true, -- disable mouse acceleration (1:1 movement)
         numlock_by_default = true, -- turn Num Lock on at startup
@@ -216,7 +202,7 @@ local mainMod = "SUPER" -- Windows key
 hl.bind(mainMod .. " + Return",    hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 
--- Open the app launcher by tapping SUPER alone (fires on release, so it
+-- Open the pilo app launcher by tapping SUPER alone (fires on release, so it
 -- won't trigger when SUPER is used as a modifier for other binds below)
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(menu), { release = true })
 -- pibble launcher (clock, apps, wallpapers, clipboard) — SUPER+Space
@@ -297,7 +283,6 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 hl.workspace_rule({ workspace = "1",  monitor = "HDMI-A-1", default = true })
 hl.workspace_rule({ workspace = "2",  monitor = "HDMI-A-1" })
 hl.workspace_rule({ workspace = "3",  monitor = "DP-2",     default = true })
-hl.workspace_rule({ workspace = "10", monitor = "DP-1",     default = true })
 
 -- Autostart app placement (the apps themselves are launched from
 -- ~/.config/autostart): Firefox + Steam on the middle screen, Discord on the
@@ -326,7 +311,7 @@ hl.window_rule({
     name  = "autostart-discord",
     match = { class = "^vesktop$" },
 
-    workspace = "10 silent",
+    workspace = "2 silent",
 })
 
 hl.window_rule({
@@ -383,6 +368,36 @@ hl.layer_rule({
     blur         = true,
     ignore_alpha = 0.2,
     no_anim      = true,
+})
+
+-- pilo bar — Quickshell bar. Mirrors blur-waybar so the bar and its anchored
+-- popups (calendar, network, sound, bar settings) read as frosted glass. The
+-- centered launcher overlay is deliberately not listed: it is a full-screen
+-- surface, so blurring it would frost the whole desktop.
+hl.layer_rule({
+    name  = "blur-pilo",
+    match = { namespace = "^pilo-bar$" },
+
+    blur         = true,
+    ignore_alpha = 0.2,
+    no_anim      = true,
+})
+
+-- pilo overlays. Both are full-screen surfaces (no blur), but the
+-- compositor's fadeLayers animation runs at speed 60 here, which made them
+-- take ~4s to fade in. no_anim shows them instantly.
+hl.layer_rule({
+    name  = "pilo-launcher",
+    match = { namespace = "^pilo-launcher$" },
+
+    no_anim = true,
+})
+
+hl.layer_rule({
+    name  = "pilo-popup",
+    match = { namespace = "^pilo-popup$" },
+
+    no_anim = true,
 })
 
 -- mako's layer namespace is "notifications" (verified with `hyprctl layers`).

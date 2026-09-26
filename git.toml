@@ -36,6 +36,12 @@ repos = [
     # ~/.local/bin via dotfiles.toml. pull = false so a fedup sync never
     # updates it out from under a running daemon.
     { url = "https://github.com/kianblakley/pibble.git", path = "~/.config/pibble", pull = false },
+
+    # pilo bar — Quickshell bar for Hyprland, launched from hyprland.lua with
+    # `qs -c pilo`. Cloned to ~/.config/quickshell/pilo only if it is missing;
+    # pull = false so a sync never updates the working copy out from under the
+    # running bar. Set pull = true to have fedup keep it up to date.
+    { url = "https://github.com/NinthJake/PiloBar.git", path = "~/.config/quickshell/pilo", pull = false },
 ]
 
 # Seed pibble's settings.json (wallpaper backend = hyprpaper, wallpaper folder
