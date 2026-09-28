@@ -383,7 +383,7 @@ hl.layer_rule({
     no_anim      = true,
 })
 
--- pilo overlays. Both are full-screen surfaces (no blur), but the
+-- pilo overlays. All are full-screen surfaces (no blur), but the
 -- compositor's fadeLayers animation runs at speed 60 here, which made them
 -- take ~4s to fade in. no_anim shows them instantly.
 hl.layer_rule({
@@ -396,6 +396,13 @@ hl.layer_rule({
 hl.layer_rule({
     name  = "pilo-popup",
     match = { namespace = "^pilo-popup$" },
+
+    no_anim = true,
+})
+
+hl.layer_rule({
+    name  = "pilo-identify",
+    match = { namespace = "^pilo-identify$" },
 
     no_anim = true,
 })
