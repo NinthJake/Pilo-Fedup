@@ -53,6 +53,9 @@ hl.on("hyprland.start", function ()
     -- hyprpaper IPC socket is up.
     hl.exec_cmd("matugen-apply")
     hl.exec_cmd("hyprpolkitagent")
+    -- Vesktop (Discord). Started here instead of XDG autostart so closing it
+    -- does not leave app-vesktop@autostart.service in a failed state.
+    hl.exec_cmd("/usr/share/vesktop/vesktop")
 end)
 
 -------------------------------
