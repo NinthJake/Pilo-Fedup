@@ -107,7 +107,6 @@ alias cls='clear'
 # Modern ls replacement (also used by the cd function below)
 alias ls='eza --icons -Ah --group-directories-first'
 
-
 # ===== 7. FUNCTIONS ========================================================
 
 # --- Navigation ------------------------------------------------------------
@@ -119,6 +118,23 @@ cd() {
 	else
 		builtin cd ~ && ls
 	fi
+}
+
+# Fuzzy directory jump. Searches under the current dir (maxdepth 6, skipping
+# noise like .git/node_modules/.venv/.cache/.local); ctrl-r reloads a deeper
+# unfiltered search. Aborting with esc/ctrl-c leaves you where you are.
+cdf() {
+	local dir
+	dir=$(find . -maxdepth 6 \( -name .git -o -name node_modules -o -name .venv -o -name venv \
+		-o -name __pycache__ -o -name .cache -o -name site-packages -o -name .wine \
+		-o -name compatdata -o -name .local -o -name .cursor -o -name dist-info \) \
+		-prune -o -type d -print 2>/dev/null \
+		| fzf --border --reverse --height=40% --prompt 'cd> ' \
+			--preview 'eza --icons -A --color=always {} 2>/dev/null' \
+			--bind "ctrl-r:reload(find . -maxdepth 8 -type d 2>/dev/null)")
+
+	# fzf exits non-zero on abort, or prints nothing if the list was empty
+	[ -n "$dir" ] && cd "$dir"
 }
 
 # --- Files and archives ----------------------------------------------------
