@@ -282,16 +282,16 @@ hl.bind("XF86AudioPrev",  hl.dsp.exec_cmd("playerctl previous"),   { locked = tr
 
 -- Deterministic home workspaces per screen, so autostart apps and the
 -- SUPER+[0-9] binds always land on the same monitor:
---   ws 1-2 -> middle (HDMI-A-1), ws 3 -> left (DP-2), ws 10 -> right (DP-1)
-hl.workspace_rule({ workspace = "1",  monitor = "HDMI-A-1", default = true })
-hl.workspace_rule({ workspace = "2",  monitor = "HDMI-A-1" })
-hl.workspace_rule({ workspace = "3",  monitor = "DP-2",     default = true })
+--   ws 1 -> middle (DP-1), ws 2 -> right (HDMI-A-1), ws 3 -> left (DP-2)
+hl.workspace_rule({ workspace = "1", monitor = "DP-1",     default = true })
+hl.workspace_rule({ workspace = "2", monitor = "HDMI-A-1", default = true })
+hl.workspace_rule({ workspace = "3", monitor = "DP-2",     default = true })
 
 -- Autostart app placement (the apps themselves are launched from
--- ~/.config/autostart): Firefox + Steam on the middle screen, Discord on the
--- right screen. "silent" = open on the target workspace without switching
--- the view/focus to it. Applies to every new window of the class, not just
--- the autostarted one.
+-- ~/.config/autostart): Firefox on the middle screen (ws 1), Vesktop on the
+-- right screen (ws 2), Steam on the left screen (ws 3). "silent" = open on
+-- the target workspace without switching the view/focus to it. Applies to
+-- every new window of the class, not just the autostarted one.
 hl.window_rule({
     name  = "autostart-firefox",
     match = {
@@ -305,9 +305,16 @@ hl.window_rule({
 
 hl.window_rule({
     name  = "autostart-steam",
-    match = { class = "^steam$" },
+    match = {
+        class = "^steam$",
+        -- Steam's XWayland menus/popups (Steam > Account settings, sign out,
+        -- ...) share class "steam" but have an empty title. Without this the
+        -- rule would relocate every menu to workspace 3 instead of letting it
+        -- follow the main window.
+        title = "negative:^$",
+    },
 
-    workspace = "2 silent",
+    workspace = "3 silent",
 })
 
 hl.window_rule({
