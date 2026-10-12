@@ -95,64 +95,24 @@ end
 ---- LOOK AND FEEL ----
 -----------------------
 
-hl.config({
-    general = {
-        gaps_in     = 2,
-        gaps_out    = 4,
-        border_size = 2,
-
-        -- vague.nvim palette: teal builtin -> steel keyword gradient, muted
-        -- comment inactive. (Kept hardcoded — the matugen palette was too
-        -- subtle to read as a focus highlight.)
-        col = {
-            active_border   = { colors = { "rgba(b4d4cfee)", "rgba(6e94b2ee)" }, angle = 45 },
-            inactive_border = "rgba(606079aa)",
-        },
-
-        resize_on_border = false,
-        allow_tearing    = false,
-        layout           = "dwindle",
-    },
-
-    decoration = {
-        rounding       = 2,
-        rounding_power = 2,
-
-        active_opacity   = 1.0,
-        inactive_opacity = 1.0,
-
-        shadow = {
-            enabled      = true,
-            range        = 4,
-            render_power = 3,
-            color        = 0xee1a1a1a,
-        },
-
-        blur = {
-            enabled  = true,
-            size     = 8,
-            passes   = 2,
-            vibrancy = 0.1696,
-
-            -- Hyprland 0.56 defaults ignore_opacity to true, which on this
-            -- setup kills window blur entirely (translucent windows show the
-            -- wallpaper razor-sharp instead of frosted). Force it off.
-            ignore_opacity = false,
-        },
-    },
-
-    animations = {
-        enabled = true,
-    },
-})
-
-hl.animation({ leaf = "windows",    enabled = true, speed = 4.79, bezier = "default" })
-hl.animation({ leaf = "fade",       enabled = true, speed = 3.03, bezier = "default" })
-hl.animation({ leaf = "workspaces", enabled = true, speed = 1.94, bezier = "default", style = "fade" })
--- Layer surfaces (waybar, mako, wofi, hyprpaper, ...) get their own fade
--- animation, separate from "fade" above; this is what makes the hyprpaper
--- crossfade below (and the other layer_rules further down) actually animate.
-hl.animation({ leaf = "fadeLayers", enabled = true, speed = 60, bezier = "default" })
+-- The look and feel (colours, gaps, border size, rounding, blur, animations)
+-- lives in lookandfeel.lua, which the pilo settings app (Theming) generates
+-- from the active theme. On a fresh install that file may not exist before the
+-- bar has run once, so fall back to a minimal config — pilo applies the real
+-- values live (hyprctl eval) at startup.
+local lf_ok, lf = pcall(require, "lookandfeel")
+if lf_ok then
+    hl.config({
+        general    = lf.general,
+        decoration = lf.decoration,
+        animations = lf.animations,
+    })
+    for _, anim in ipairs(lf.animation_list or {}) do
+        hl.animation(anim)
+    end
+else
+    hl.config({ general = { layout = "dwindle" } })
+end
 
 hl.config({
     dwindle = {
@@ -168,7 +128,7 @@ hl.config({
     misc = {
         force_default_wallpaper = 0, -- 0/1 disables the anime mascot wallpaper
         disable_hyprland_logo   = true,
-        background_color        = 0x1a1a1a,
+        background_color        = (lf_ok and lf.background_color) or 0x1a1a1a,
     },
 })
 

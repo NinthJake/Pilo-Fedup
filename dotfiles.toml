@@ -7,3 +7,12 @@ symlinks = [
 { target = "~/.config/fedup/dotfiles/matugen/matugen-apply.sh", link = "~/.local/bin/matugen-apply"},
 { target = "~/.config/fedup/dotfiles/starship.toml", link = "~/.config/starship.toml"},
 ]
+
+# Seed pilo's generated theme files (foot colours, Hyprland look & feel) after
+# the dotfiles are symlinked, so a fresh install works before the bar has run
+# once. The script self-skips if the files already exist, so in-app theme
+# changes are never clobbered by a sync.
+[dotfiles.hooks]
+post = [
+    { cmd = "bash ~/.config/fedup/dotfiles/pilo/seed-generated.sh" },
+]
