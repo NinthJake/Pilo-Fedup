@@ -33,6 +33,7 @@ install = [
     "cliphist",               # clipboard history support
     "ImageMagick",            # wallpaper/clipboard thumbnails
     "ffmpeg", "firefox",                 # live wallpaper thumbnails
+    "fastfetch.x86_64",
 ]
 
 [flatpak]
