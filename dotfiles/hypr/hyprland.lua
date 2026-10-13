@@ -174,6 +174,13 @@ hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
 
+-- "Fake fullscreen" — maximize the focused window so it fills the workspace as
+-- if it were the only window there, while keeping gaps, borders and the bar
+-- visible. Unlike SUPER+F this is not a real fullscreen: the window stays
+-- tiled and no fullscreen request is sent to the app, so switching workspaces
+-- and other windows keep working normally. Press again to restore the layout.
+hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized", action = "toggle" }))
+
 -- Lock screen (hyprlock) — DISABLED. hyprlock is not used on this setup
 -- (it was crashing the session), so no lock keybind is bound.
 
