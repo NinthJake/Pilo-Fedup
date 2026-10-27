@@ -28,7 +28,7 @@ install = [
 
     # Desktop shell — the pilo bar (Quickshell) replaced pibble, waybar and wofi.
     "quickshell",            # runs the bar (qs -c pilo)
-    "matugen",               # wallpaper-derived colour theme
+    "matugen",               # theme generator (available, not wired into the config)
     "cliphist",              # clipboard history (wl-paste watchers in hyprland.lua)
     "ffmpeg", "firefox",     # media / browser
     "fastfetch.x86_64",

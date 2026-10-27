@@ -61,5 +61,5 @@ symlinks = [
 ]
 
 # NOTE: power profiles are already handled by tuned-ppd (Fedora's default,
-# enabled system-wide) — dotfiles/hypr/power-profile.sh cycles them on click.
-# No extra service needed.
+# enabled system-wide) — the pilo bar's Power widget talks to
+# powerprofilesctl directly, so no extra service or helper script is needed.
