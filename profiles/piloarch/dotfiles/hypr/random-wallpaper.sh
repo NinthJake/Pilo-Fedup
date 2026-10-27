@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Rotate a random wallpaper per monitor from the pika folder via hyprpaper's
-# IPC on a fixed interval. The switch crossfades because of hyprland.lua's
+# Rotate a random wallpaper per monitor from the wallpaper collections under
+# ~/Pictures/Wallpapers (searched recursively, one subfolder per collection:
+# pika/ for PikaOS, MLFW/ for mylinuxforwork) via hyprpaper's IPC on a fixed
+# interval. The switch crossfades because of hyprland.lua's
 # "wallpaper-crossfade" layer_rule (matches hyprpaper's layer namespace) and
 # the "fadeLayers" animation that drives it.
 # Runs as a long-lived daemon, started once at Hyprland startup (see
@@ -14,7 +16,7 @@
 # Docs: https://wiki.hypr.land/Hypr-Ecosystem/hyprpaper/#ipc
 set -euo pipefail
 
-wallpaper_dir="/home/pilo/Pictures/Wallpapers/pika"
+wallpaper_dir="$HOME/Pictures/Wallpapers" # searched recursively, all collections
 monitors=(HDMI-A-1 DP-1 DP-2)
 interval="${WALLPAPER_ROTATE_INTERVAL:-300}" # seconds between rotations
 
@@ -44,7 +46,7 @@ rotate() {
         # matters when there's more than one candidate); give up after a few
         # tries so a folder with just one image still works.
         for _ in $(seq 1 5); do
-            wallpaper=$(find "$wallpaper_dir" -maxdepth 1 -type f | shuf -n 1)
+            wallpaper=$(find "$wallpaper_dir" -type f | shuf -n 1)
             [[ "$wallpaper" != "$previous" ]] && break
         done
 
