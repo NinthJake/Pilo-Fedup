@@ -14,7 +14,7 @@
 set -euo pipefail
 
 # Resolve the wallpaper: explicit arg, else the one pibble last applied, else
-# a random pick from the pika collection (fresh install before any pick).
+# a random pick from the wallpaper collections (fresh install before any pick).
 wall="${1:-}"
 if [ -z "$wall" ]; then
     shell_id=$(printf '%s' "$HOME/.config/pibble/shell.qml" | md5sum | cut -d' ' -f1)
@@ -22,7 +22,8 @@ if [ -z "$wall" ]; then
         "$HOME/.local/state/quickshell/by-shell/$shell_id/settings.json" 2>/dev/null || true)
 fi
 if [ -z "$wall" ] || [ ! -f "$wall" ]; then
-    wall=$(find "$HOME/Pictures/Wallpapers/pika" -maxdepth 1 -type f 2>/dev/null | shuf -n 1)
+    # Searched recursively: one subfolder per collection (pika/, MLFW/, …).
+    wall=$(find "$HOME/Pictures/Wallpapers" -type f 2>/dev/null | shuf -n 1)
 fi
 [ -n "$wall" ] && [ -f "$wall" ] || { echo "matugen-apply: no wallpaper found" >&2; exit 1; }
 
@@ -30,12 +31,17 @@ fi
 if command -v hyprctl >/dev/null 2>&1; then
     # hyprpaper may not have its IPC socket up yet when this runs at login
     # (hyprland.lua autostarts it and this script back-to-back), which used to
-    # make the wallpaper sets below fail silently. Wait for the socket first.
+    # make the wallpaper sets below fail silently. Wait for the socket first —
+    # Hyprland 0.56 dropped `hyprctl hyprpaper listactive`, so poll the socket
+    # hyprpaper creates instead.
+    hp_sock="${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/hypr/${HYPRLAND_INSTANCE_SIGNATURE:-}/.hyprpaper.sock"
     for _ in $(seq 1 40); do
-        hyprctl hyprpaper listactive >/dev/null 2>&1 && break
+        [ -S "$hp_sock" ] && break
         sleep 0.25
     done
-    for m in $(hyprctl monitors -j | jq -r '.[].name'); do
+    # awk instead of jq for the monitor names: this script is shared with the
+    # Fedora machine, whose package list has no jq.
+    for m in $(hyprctl monitors | awk '/^Monitor /{print $2}'); do
         hyprctl hyprpaper wallpaper "$m,$wall" >/dev/null
     done
 fi
