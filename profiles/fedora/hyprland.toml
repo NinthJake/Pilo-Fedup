@@ -29,49 +29,22 @@ install = [
     "hyprpolkitagent",
     "xdg-desktop-portal-hyprland",
 
-    # Desktop components (Fedora repos)
-    "waybar",                  # status bar
-    "wofi",                    # app launcher
-    "mako",                    # notifications
+    # Desktop components
     "qt6-qtwayland",           # Qt apps on Wayland
 
-    # Tools used by the keybinds and waybar on-click actions
-    "foot",                    # terminal (SUPER+Return, TUI popups)
-    "wl-clipboard",            # wl-copy/wl-paste (screenshot binds)
+    # Tools used by the keybinds
+    "foot",                    # terminal (SUPER+Return)
+    "wl-clipboard",            # wl-copy/wl-paste (screenshot binds, cliphist)
     "brightnessctl",           # screen brightness keys
     "playerctl",               # media keys
     "grim",                    # screenshots
     "slurp",                   # area selection for grim
-    "btop",                    # system monitor TUI (waybar temp on-click)
 
-    # Build dependencies for compiling the cargo TUIs below
-    "dbus-devel",              # bluetui: libdbus-sys needs dbus-1 headers
-    "pipewire-devel",          # wiremix: pipewire bindings need libpipewire headers
-    "clang-devel",             # wiremix: bindgen needs libclang
-
-    # rustup — bootstraps cargo on fresh systems (see [cargo.hooks] below)
+    # rustup — Rust toolchain
     "rustup",
 ]
 
-# Rust TUIs for the waybar on-click actions (compiled by cargo)
-[cargo]
-install = [
-    "bluetui",                 # bluetooth TUI
-    "wiremix",                 # pipewire volume mixer TUI
-    "impala-nm",               # NetworkManager wifi/network TUI
-]
-
-# Bootstrap cargo BEFORE any cargo package is installed:
-# the dnf phase installs the rustup rpm, then this pre-hook installs the
-# toolchain, then fedup's cargo phase finds the shim at ~/.cargo/bin/cargo
-# (even if PATH doesn't have it yet). Runs once; skipped if a toolchain
-# already exists (e.g. rustup.rs was used).
-[cargo.hooks]
-pre = [
-    { cmd = "rustup-init -y --profile default", once = true, unless = "test -x ~/.cargo/bin/cargo" },
-]
-
-# FiraCode Nerd Font — required for the waybar icons and the terminal font.
+# FiraCode Nerd Font — required for the terminal font and the bar icons.
 # Downloaded once from the official nerd-fonts releases (same as main.toml).
 [dnf.hooks]
 post = [
@@ -81,9 +54,6 @@ post = [
 [dotfiles]
 symlinks = [
     { target = "~/.config/fedup/dotfiles/hypr", link = "~/.config/hypr" },
-    { target = "~/.config/fedup/dotfiles/waybar", link = "~/.config/waybar" },
-    { target = "~/.config/fedup/dotfiles/wofi", link = "~/.config/wofi" },
-    { target = "~/.config/fedup/dotfiles/mako", link = "~/.config/mako" },
     { target = "~/.config/fedup/dotfiles/eza", link = "~/.config/eza" },
     { target = "~/.config/fedup/dotfiles/foot", link = "~/.config/foot" },
     { target = "~/.config/fedup/dotfiles/zsh/.zshrc", link = "~/.zshrc" },
@@ -91,5 +61,5 @@ symlinks = [
 ]
 
 # NOTE: power profiles are already handled by tuned-ppd (Fedora's default,
-# enabled system-wide) — the waybar module displays the active profile and
-# dotfiles/hypr/power-profile.sh cycles it on click. No extra service needed.
+# enabled system-wide) — dotfiles/hypr/power-profile.sh cycles them on click.
+# No extra service needed.

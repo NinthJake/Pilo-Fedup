@@ -20,10 +20,10 @@ machine under `profiles/`:
 ├── main.toml                 # shared settings + shared hooks
 ├── packages.toml             # shared [system] packages (curl, git)
 ├── profiles.toml             # [profiles.hosts]: hostname → profile map
-├── dotfiles/                 # shared dotfiles (foot, matugen, Fedora hypr/…)
+├── dotfiles/                 # shared dotfiles (hypr, foot, matugen, bashrc/…)
 └── profiles/
-    ├── fedora/               # Pilo-Nobara: dnf lists, Hyprland COPR, pibble, waybar, starship
-    └── piloarch/             # PiloArch: paru lists, pilo bar, mako, foot, oh-my-posh
+    ├── fedora/               # Pilo-Nobara: dnf lists, Hyprland COPR, starship, zsh
+    └── piloarch/             # PiloArch: paru lists, oh-my-posh bashrc
 ```
 
 Activation is automatic — `profiles.toml` maps each hostname to its profile

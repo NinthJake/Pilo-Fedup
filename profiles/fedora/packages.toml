@@ -26,13 +26,11 @@ install = [
     "ydotool",
     "zoxide",
 
-    # pibble — desktop shell dependencies
-    "quickshell",            # runs the shell
-    "matugen",                # wallpaper-derived color theme
-    "qt6-qtmultimedia",       # live wallpaper previews
-    "cliphist",               # clipboard history support
-    "ImageMagick",            # wallpaper/clipboard thumbnails
-    "ffmpeg", "firefox",                 # live wallpaper thumbnails
+    # Desktop shell — the pilo bar (Quickshell) replaced pibble, waybar and wofi.
+    "quickshell",            # runs the bar (qs -c pilo)
+    "matugen",               # wallpaper-derived colour theme
+    "cliphist",              # clipboard history (wl-paste watchers in hyprland.lua)
+    "ffmpeg", "firefox",     # media / browser
     "fastfetch.x86_64",
 ]
 
@@ -52,4 +50,3 @@ install = [
 install = [
 
 ]
-
