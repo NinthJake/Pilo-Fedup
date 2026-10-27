@@ -10,6 +10,35 @@ you like. Edit them, then run:
 fedup sync
 ```
 
+## Layout: one repo, two machines
+
+The repo is split into **shared** files in the root and one **profile** per
+machine under `profiles/`:
+
+```
+.
+├── main.toml                 # shared settings + shared hooks
+├── packages.toml             # shared [system] packages (curl, git)
+├── profiles.toml             # [profiles.hosts]: hostname → profile map
+├── dotfiles/                 # shared dotfiles (foot, matugen, Fedora hypr/…)
+└── profiles/
+    ├── fedora/               # Pilo-Nobara: dnf lists, Hyprland COPR, pibble, waybar, starship
+    └── piloarch/             # PiloArch: paru lists, pilo bar, mako, foot, oh-my-posh
+```
+
+Activation is automatic — `profiles.toml` maps each hostname to its profile
+(`fedup profile` shows which one is active). Override for one run with
+`fedup --profile <name>`, or pin a machine with `fedup profile use <name>`
+(writes the gitignored `profile.local.toml`).
+
+Safety: `auto_prune` is **off** in the shared `main.toml` and turned on inside
+`profiles/fedora/` only, so a machine with no active profile does a no-op sync
+instead of pruning every tracked package.
+
+`profiles/piloarch/dotfiles/` holds the Arch variants of the files that differ
+from Fedora (`hyprland.lua`, `.bashrc`); everything else points at the shared
+`dotfiles/` tree.
+
 ## Settings (main.toml)
 
 ### auto_prune

@@ -1,8 +1,22 @@
-[settings]
-auto_prune = true
-enable_rpmfusion = true
+# =============================================================================
+# Shared settings + hooks — applied on every machine
+# =============================================================================
+# Machine/distro-specific configuration lives in profiles/<name>/:
+#   profiles/fedora/   — the Nobara/Fedora desktop (dnf, Hyprland COPR, …)
+#   profiles/piloarch/ — the Arch desktop (paru, pilo bar, …)
+#
+# A profile is activated by the [profiles.hosts] map below, per-machine
+# profile.local.toml, or `fedup --profile <name>`.
+#
+# NOTE: auto_prune is intentionally OFF here and turned ON inside the profiles
+# that want it. If a machine ends up with no profile active, a sync then does
+# nothing destructive instead of pruning every tracked package.
+# =============================================================================
 
-# auto_push = true commits your files to repo on fedup sync
+[settings]
+auto_prune = false
+
+# auto_push = true commits + pushes this config repo after sync
 auto_push = true
 
 [hooks]

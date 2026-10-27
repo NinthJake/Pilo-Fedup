@@ -1,0 +1,3 @@
+# Machine-local profile selection — written by `fedup profile use <name>`,
+# never tracked. The committed activation rules live in profiles.toml.
+profile.local.toml

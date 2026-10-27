@@ -1,55 +1,16 @@
-[dnf]
+# =============================================================================
+# Shared packages — the portable [system] list, valid on any distro
+# =============================================================================
+# Distro-specific package lists live in the machine profiles:
+#   profiles/fedora/packages.toml   ([dnf] + flatpak + pip + npm)
+#   profiles/piloarch/packages.toml ([paru])
+#
+# [system] applies to whichever system manager is active (dnf/apt/pacman/paru).
+# =============================================================================
+
+[system]
 install = [
-    "bash-completion",
-    "brave-origin-nightly",
-    "cargo",
-    "codium",
     "curl",
-    "dnf5-plugins",
-    "eza",
-    "flatpak",
-    "fuse-libs",
-    "fzf",
     "git",
-    "gnome-disk-utility",
-    "hyprpolkitagent",
-    "nano",
-    "polkit",
-    "steam",
-    "trash-cli",
-    "unzip",
-    "wl-clipboard",
-    "wl-paste",
-    "wtype",
-    "xclip",
-    "xdotool",
-    "ydotool",
-    "zoxide",
-
-    # pibble — desktop shell dependencies
-    "quickshell",            # runs the shell
-    "matugen",                # wallpaper-derived color theme
-    "qt6-qtmultimedia",       # live wallpaper previews
-    "cliphist",               # clipboard history support
-    "ImageMagick",            # wallpaper/clipboard thumbnails
-    "ffmpeg", "firefox",                 # live wallpaper thumbnails
-    "fastfetch.x86_64",
 ]
-
-[flatpak]
-install = [
-    "com.github.tchx84.Flatseal",
-    "com.usebottles.bottles",
-    "io.github.kolunmi.Bazaar"
-]
-
-[pip]
-install = [
-    "piper-onnx"
-]
-
-[npm]
-install = [
-
-]
-
+remove = []

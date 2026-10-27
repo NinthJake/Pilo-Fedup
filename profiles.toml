@@ -1,0 +1,19 @@
+# =============================================================================
+# Profile activation by hostname — one repo, many machines
+# =============================================================================
+# fedup matches the profile name against the short hostname or FQDN, so each
+# machine picks its profile automatically with zero setup after a git pull.
+#
+# Overrides, in order of precedence:
+#   1. fedup --profile <name>        (single run)
+#   2. [settings] profiles = [...]   in profile.local.toml (gitignored, written
+#                                    by `fedup profile use <name>`)
+#   3. this hostname map
+#
+# Every profile also re-enables auto_prune (the base keeps it off), so an
+# inactive profile is a safe no-op rather than a prune-everything.
+# =============================================================================
+
+[profiles.hosts]
+piloarch = ["PiloArch", "piloarch"]
+fedora = ["Pilo-Nobara", "pilo-nobara"]

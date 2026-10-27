@@ -1,0 +1,31 @@
+# =============================================================================
+# piloarch — dotfiles symlinks for the Arch desktop
+# =============================================================================
+# Sources live inside the fedup config dir. Files that differ from the Fedora
+# machine (hyprland.lua, .bashrc) are kept in this profile's own dotfiles/
+# directory, so the shared ../dotfiles/ tree stays the Fedora variant and the
+# two machines never overwrite each other's config.
+#
+#   profile-local: profiles/piloarch/dotfiles/{hypr,bashrc}
+#   shared:        dotfiles/{foot,matugen}   (identical on both machines)
+#
+# On sync, fedup replaces a conflicting file with a symlink and keeps the old
+# one in ~/.local/share/fedup/backups/ (asking first).
+# =============================================================================
+
+[dotfiles]
+symlinks = [
+    # Hyprland — Arch variant (pilo bar + mako, no pibble/wofi/waybar).
+    { target = "~/.config/fedup/profiles/piloarch/dotfiles/hypr", link = "~/.config/hypr" },
+
+    # bashrc — Arch variant (guarded cargo/env sources, oh-my-posh material).
+    { target = "~/.config/fedup/profiles/piloarch/dotfiles/bashrc/.bashrc", link = "~/.bashrc" },
+
+    # foot — terminal config (font, blur, scrollback). The pilo bar rewrites
+    # foot/colors.ini with the active theme (gitignored).
+    { target = "~/.config/fedup/dotfiles/foot", link = "~/.config/foot" },
+
+    # matugen — theme config, plus the apply script hyprland.lua calls.
+    { target = "~/.config/fedup/dotfiles/matugen", link = "~/.config/matugen" },
+    { target = "~/.config/fedup/dotfiles/matugen/matugen-apply.sh", link = "~/.local/bin/matugen-apply" },
+]

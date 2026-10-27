@@ -1,5 +1,17 @@
+# =============================================================================
+# Extra package repositories — shared only
+# =============================================================================
+# Entries are dispatched by URL kind, and foreign-kind entries are skipped with
+# an event, so one file can hold dnf and apt repos side by side:
+#
+#   dnf (Fedora):  .repo file URLs, .rpm release packages (+ optional gpg_key)
+#   apt (Debian):  ppa:<owner>/<name>, .list / .sources downloads, .deb packages
+#   pacman family: no repo support — AUR packages go through [paru] instead
+#
+# Machine-specific repos live in the profiles (e.g. the Hyprland COPR is in
+# profiles/fedora/hyprland.toml). `enable_rpmfusion = true` in a profile's
+# settings is a shortcut for the RPM Fusion pair (dnf only).
+# =============================================================================
+
 [repos]
-entries = [
-     # Browser
-     # { name = "brave-browser", url = "https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo" },
- ]
+entries = []

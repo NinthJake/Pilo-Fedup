@@ -1,0 +1,15 @@
+# =============================================================================
+# fedora — the Nobara/Fedora desktop (hostname Pilo-Nobara)
+# =============================================================================
+# This profile holds everything that used to be in the repo root, so the base
+# files stay portable. Activate it with the [profiles.hosts] map in
+# ../../profiles.toml (or `fedup profile use fedora`).
+# =============================================================================
+
+[settings]
+# Declarative pruning: remove fedup-tracked packages no longer listed here.
+# Turned on per-profile so a machine with no profile active never prunes.
+auto_prune = true
+
+# Shortcut for the RPM Fusion free + nonfree repos (dnf only).
+enable_rpmfusion = true

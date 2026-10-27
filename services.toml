@@ -1,10 +1,14 @@
+# =============================================================================
+# systemd services — shared only
+# =============================================================================
+# Machine-specific services live in the profiles' services.toml.
+#
+#   enable  → systemctl enable --now
+#   disable → systemctl disable --now
+#   mask    → systemctl mask
+# =============================================================================
+
 [services]
-enable = [
-
-]
-disable = [
-
-]
-mask = [
-
-]
+enable = []
+disable = []
+mask = []

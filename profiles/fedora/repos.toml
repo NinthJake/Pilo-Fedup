@@ -1,0 +1,5 @@
+[repos]
+entries = [
+     # Browser
+     # { name = "brave-browser", url = "https://brave-browser-rpm-release.s3.brave.com/brave-browser.repo" },
+ ]

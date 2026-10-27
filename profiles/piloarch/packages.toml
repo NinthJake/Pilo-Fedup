@@ -1,0 +1,59 @@
+# =============================================================================
+# piloarch — this PC (Arch Linux, hostname PiloArch)
+# =============================================================================
+# Activated automatically by the [profiles.hosts] map in profiles.toml.
+#
+# Everything Arch-specific lives here: package names differ per distro, and
+# the base config only holds the portable [system] list (git, curl).
+#
+# NOTE: `paru` is the detected system manager on this box, and fedup merges
+# the [pacman] section into it (paru installs repo packages by delegating to
+# pacman). Packages are declared under [paru] so that `fedup add` — which
+# records into the resolved manager's section — lands in the same place.
+# =============================================================================
+
+[paru]
+install = [
+    # Hyprland stack (all in the official `extra` repo).
+    "hyprland",
+    "hyprcursor",
+    "hyprgraphics",
+    "hyprland-guiutils",
+    "hyprland-protocols",
+    "hyprland-qt-support",
+    "hyprlauncher",
+    "hyprpm",
+    "hyprpaper",
+    "hyprpolkitagent",
+
+    # Desktop shell.
+    "quickshell",              # runtime for the pilo bar (qs -c pilo)
+    "matugen",                 # theme generator; matugen-apply drives it
+
+    # Terminal used by the Hyprland keybind (SUPER+Return).
+    "foot",
+    "ttf-firacode-nerd",       # the font foot.ini asks for
+
+    # Screenshots (SUPER+P / SUPER+SHIFT+P) and the Hyprland screencopy
+    # permission backend.
+    "grim",
+    "slurp",
+    "xdg-desktop-portal-hyprland",
+
+    # Toolchain used by the bashrc dotfile.
+    "eza",
+    "fzf",
+    "zoxide",
+    "wl-clipboard",
+    "wtype",
+    "ydotool",
+
+    # Brightness keys (XF86MonBrightnessUp/Down).
+    "brightnessctl",
+
+    # matugen-apply parses the wallpaper state with jq.
+    "jq",
+    "github-cli",
+    "openssh",
+    "docker-compose",
+]

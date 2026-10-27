@@ -1,0 +1,16 @@
+# =============================================================================
+# piloarch — git repos this PC needs for the Hyprland setup
+# =============================================================================
+# pull = false so a fedup sync never updates a working copy out from under a
+# running daemon (the bar).
+# =============================================================================
+
+[git]
+repos = [
+    # pilo bar — Quickshell bar for Hyprland, launched by hyprland.lua as
+    # `qs -c pilo`. It replaces waybar (not installed) and also provides the
+    # app launcher (SUPER tap / SUPER+Space), the calendar, network and sound
+    # panels, and its own notification daemon/toasts. Cloned to
+    # ~/.config/quickshell/pilo (branch main).
+    { url = "https://github.com/NinthJake/PiloBar.git", path = "~/.config/quickshell/pilo", branch = "main", pull = false },
+]
