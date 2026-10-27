@@ -29,33 +29,28 @@ local fileManager = "dolphin"
 -------------------
 
 hl.on("hyprland.start", function ()
-    -- pilo bar — Quickshell config at ~/.config/quickshell/pilo. Replaces
-    -- waybar (waybar.service is disabled). -n exits a duplicate instance so a
-    -- Hyprland reload does not stack a second bar.
+    -- pilo bar — Quickshell config at ~/.config/quickshell/pilo. This is the
+    -- bar on this setup (waybar is not used). -n exits a duplicate instance so
+    -- a Hyprland reload does not stack a second bar.
     hl.exec_cmd("qs -c pilo -n")
     hl.exec_cmd("hyprpaper")
     -- Random per-monitor wallpaper daemon (see random-wallpaper.sh). Long-lived;
     -- waits for hyprpaper's IPC socket itself, so it can start right behind
-    -- hyprpaper. Pauses automatically when a wallpaper is picked in pibble.
+    -- hyprpaper.
     hl.exec_cmd("~/.config/hypr/random-wallpaper.sh")
-    -- pibble — desktop shell (launcher, notification/volume flyouts, wallpaper
-    -- picker). Started as a persistent daemon; SUPER+Space toggles the
-    -- launcher. pibble owns org.freedesktop.Notifications, so mako is no
-    -- longer started here.
-    hl.exec_cmd("pibble start")
-    -- Clipboard watchers for pibble's clipboard history: pipe text + image
-    -- clipboard changes into cliphist (which pibble reads). Each is a
-    -- long-lived background process. Requires wl-paste.
+    -- Notifications are owned by pilo itself (qs -c pilo above); no separate
+    -- notification daemon is started.
+    -- Clipboard history: pipe text + image clipboard changes into cliphist.
+    -- Each is a long-lived background process (requires wl-paste + cliphist).
     hl.exec_cmd("wl-paste --type text --watch cliphist store")
     hl.exec_cmd("wl-paste --type image --watch cliphist store")
     -- Restore the last-picked wallpaper (or a random pick on a fresh
     -- install) via matugen-apply. Runs after the daemons above so the
     -- hyprpaper IPC socket is up.
     hl.exec_cmd("matugen-apply")
-    hl.exec_cmd("hyprpolkitagent")
-    -- Vesktop (Discord). Started here instead of XDG autostart so closing it
-    -- does not leave app-vesktop@autostart.service in a failed state.
-    hl.exec_cmd("/usr/share/vesktop/vesktop")
+    -- hyprpolkitagent: on PATH on Fedora, /usr/lib/… on Arch (it ships as a
+    -- systemd user unit with the binary outside PATH there), so try both.
+    hl.exec_cmd("hyprpolkitagent 2>/dev/null || /usr/lib/hyprpolkitagent/hyprpolkitagent")
 end)
 
 -------------------------------
@@ -139,7 +134,7 @@ hl.config({
 hl.config({
     input = {
 kb_layout          = "se",
-        follow_mouse       = 0,
+        follow_mouse       = 1,
         sensitivity        = 0,
         force_no_accel     = true, -- disable mouse acceleration (1:1 movement)
         numlock_by_default = true, -- turn Num Lock on at startup
@@ -168,8 +163,9 @@ hl.bind(mainMod .. " + E",         hl.dsp.exec_cmd(fileManager))
 -- Open the pilo app launcher by tapping SUPER alone (fires on release, so it
 -- won't trigger when SUPER is used as a modifier for other binds below)
 hl.bind(mainMod .. " + SUPER_L", hl.dsp.exec_cmd(menu), { release = true })
--- pibble launcher (clock, apps, wallpapers, clipboard) — SUPER+Space
-hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd("pibble toggle"))
+-- pilo app launcher (clock, apps, wallpapers) — SUPER+Space.
+-- The pilo bar's own launcher, same as the SUPER-tap bind above.
+hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ action = "toggle" }))
@@ -183,9 +179,6 @@ hl.bind(mainMod .. " + SHIFT + F", hl.dsp.window.fullscreen({ mode = "maximized"
 
 -- Lock screen (hyprlock) — DISABLED. hyprlock is not used on this setup
 -- (it was crashing the session), so no lock keybind is bound.
-
--- Power/session menu (lock, logout, suspend, reboot, shutdown) — SUPER+Esc
-hl.bind(mainMod .. " + Escape", hl.dsp.exec_cmd("~/.config/hypr/power-menu.sh"))
 
 -- Focus with mainMod + arrows and vim keys (hjkl)
 hl.bind(mainMod .. " + left",  hl.dsp.focus({ direction = "left" }))
@@ -338,19 +331,10 @@ hl.window_rule({
 ---- LAYERS ----
 ----------------
 
-hl.layer_rule({
-    name  = "blur-waybar",
-    match = { namespace = "^waybar$" },
-
-    blur         = true,
-    ignore_alpha = 0.2,
-    no_anim      = true,
-})
-
--- pilo bar — Quickshell bar. Mirrors blur-waybar so the bar and its anchored
--- popups (calendar, network, sound, bar settings) read as frosted glass. The
--- centered launcher overlay is deliberately not listed: it is a full-screen
--- surface, so blurring it would frost the whole desktop.
+-- pilo bar — Quickshell bar. The bar and its anchored popups (calendar,
+-- network, sound, bar settings) read as frosted glass. The centered launcher
+-- overlay is deliberately not listed: it is a full-screen surface, so blurring
+-- it would frost the whole desktop.
 hl.layer_rule({
     name  = "blur-pilo",
     match = { namespace = "^pilo-bar$" },
@@ -384,23 +368,15 @@ hl.layer_rule({
     no_anim = true,
 })
 
--- mako's layer namespace is "notifications" (verified with `hyprctl layers`).
--- Mirrors "blur-waybar" so notifications read the same as the bar; animation is
--- left enabled here, unlike waybar, so notifications still fade in.
+-- pilo's notification toasts. They read as the same frosted surface as the
+-- bar. no_anim matters for the same reason as the other overlays: the
+-- compositor's fadeLayers animation runs at speed 60 here. The cards fade in
+-- themselves in QML instead.
 hl.layer_rule({
-    name  = "blur-notifications",
-    match = { namespace = "^notifications$" },
+    name  = "pilo-notifications",
+    match = { namespace = "^pilo-notifications$" },
 
     blur         = true,
-    ignore_alpha = 0.2,
-})
-
-hl.layer_rule({
-    name  = "blur-wofi",
-    match = { namespace = "^wofi$" },
-
-    blur         = true,
-    blur_popups  = true,
     ignore_alpha = 0.2,
     no_anim      = true,
 })
@@ -413,17 +389,4 @@ hl.layer_rule({
     match = { namespace = "^hyprpaper$" },
 
     animation = "fade",
-})
-
--- pibble — desktop shell layer surfaces (launcher + notification/volume
--- flyouts). Blur the launcher and flyouts like waybar/wofi so they read as
--- frosted glass over the desktop; the launcher's own backdrop is handled by
--- pibble's in-app "xray" blur setting, so compositor blur here is a light
--- touch. Namespaces: pibble-launcher, pibble-notifications, pibble-volume.
-hl.layer_rule({
-    name  = "blur-pibble",
-    match = { namespace = "^(pibble-launcher|pibble-notifications|pibble-volume)$" },
-
-    blur         = true,
-    ignore_alpha = 0.2,
 })

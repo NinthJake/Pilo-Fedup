@@ -1,1 +1,0 @@
-../../../../dotfiles/hypr/power-profile.sh

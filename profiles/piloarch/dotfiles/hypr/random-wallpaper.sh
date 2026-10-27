@@ -1,1 +1,0 @@
-../../../../dotfiles/hypr/random-wallpaper.sh

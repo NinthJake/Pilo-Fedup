@@ -29,6 +29,7 @@ install = [
     # Desktop shell.
     "quickshell",              # runtime for the pilo bar (qs -c pilo)
     "matugen",                 # theme generator; matugen-apply drives it
+    "cliphist",                # clipboard history store (wl-paste watchers in hyprland.lua)
 
     # Terminal used by the Hyprland keybind (SUPER+Return).
     "foot",

@@ -35,9 +35,10 @@ Safety: `auto_prune` is **off** in the shared `main.toml` and turned on inside
 `profiles/fedora/` only, so a machine with no active profile does a no-op sync
 instead of pruning every tracked package.
 
-`profiles/piloarch/dotfiles/` holds the Arch variants of the files that differ
-from Fedora (`hyprland.lua`, `.bashrc`); everything else points at the shared
-`dotfiles/` tree.
+`dotfiles/hypr/` is shared by both machines and holds the default (pilo bar /
+Arch) Hyprland config — no pibble, waybar or wofi. Only the shell config still
+differs per machine: `profiles/piloarch/dotfiles/bashrc/` is the Arch variant,
+`dotfiles/bashrc/` the Fedora one.
 
 ## Settings (main.toml)
 
