@@ -58,4 +58,10 @@ install = [
     "openssh",
     "docker-compose",
     "extra/dolphin",
+
+    # KDE platform theme (QT_QPA_PLATFORMTHEME=kde). Dolphin needs it to read
+    # the colour scheme KdeTheme writes to ~/.config/kdeglobals; Arch's dolphin
+    # package does not pull it in. The bar's kwriteconfig6 fallback applies the
+    # scheme without pulling in plasma-workspace.
+    "extra/plasma-integration",
 ]
