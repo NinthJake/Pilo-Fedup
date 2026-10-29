@@ -32,6 +32,16 @@ install = [
     "cliphist",              # clipboard history (wl-paste watchers in hyprland.lua)
     "ffmpeg", "firefox",     # media / browser
     "fastfetch.x86_64",
+
+    # HyprMod toolchain — PyGObject/pycairo build from sdist (uv, in the
+    # shared hyprmod hook) plus the GTK4/libadwaita typelibs loaded at runtime.
+    "cairo-devel",
+    "gcc",
+    "gobject-introspection-devel",
+    "gtk4",
+    "libadwaita",
+    "pkgconf-pkg-config",
+    "python3-devel",
 ]
 
 [flatpak]
