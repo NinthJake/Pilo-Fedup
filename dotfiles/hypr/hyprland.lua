@@ -390,3 +390,6 @@ hl.layer_rule({
 
     animation = "fade",
 })
+
+-- HyprMod managed settings
+require("hyprland-gui")
