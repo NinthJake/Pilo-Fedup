@@ -22,8 +22,3 @@ hl.config({
         vrr = 3,
     },
 })
-
--- Autostart
-hl.on("hyprland.start", function()
-    hl.exec_cmd("hyprpm reload -n")
-end)

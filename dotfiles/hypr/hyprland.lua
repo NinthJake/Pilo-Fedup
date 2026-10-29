@@ -90,11 +90,12 @@ end
 ---- LOOK AND FEEL ----
 -----------------------
 
--- The look and feel (colours, gaps, border size, rounding, blur, animations)
--- lives in lookandfeel.lua, which the pilo settings app (Theming) generates
--- from the active theme. On a fresh install that file may not exist before the
--- bar has run once, so fall back to a minimal config — pilo applies the real
--- values live (hyprctl eval) at startup.
+-- The base look and feel (colours, gaps, border size, rounding, blur,
+-- animations) lives in lookandfeel.lua. This is a static legacy base now:
+-- HyprMod owns the editable Hyprland settings and writes hyprland-gui.lua,
+-- loaded near the end of this file. Pilo's Theming only launches HyprMod.
+-- Keep the fallback so a fresh install still has a usable layout if the
+-- lookandfeel.lua file does not exist yet.
 local lf_ok, lf = pcall(require, "lookandfeel")
 if lf_ok then
     hl.config({
