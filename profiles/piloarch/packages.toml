@@ -65,3 +65,8 @@ install = [
     # scheme without pulling in plasma-workspace.
     "extra/plasma-integration",
 ]
+
+[flatpak]
+install = [
+    "dev.vencord.Vesktop"
+]
